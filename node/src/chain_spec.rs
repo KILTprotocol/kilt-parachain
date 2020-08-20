@@ -68,8 +68,8 @@ where
 
 pub fn get_chain_spec(id: ParaId) -> ChainSpec {
 	ChainSpec::from_genesis(
-		"Local Testnet",
-		"local_testnet",
+		"KILT Collator Local Testnet",
+		"kilt_collator_local_testnet",
 		ChainType::Local,
 		move || {
 			testnet_genesis(
@@ -96,7 +96,7 @@ pub fn get_chain_spec(id: ParaId) -> ChainSpec {
 		None,
 		None,
 		Extensions {
-			relay_chain: "local_testnet".into(),
+			relay_chain: "rococo_local_testnet".into(),
 			para_id: id.into(),
 		},
 	)
@@ -104,8 +104,8 @@ pub fn get_chain_spec(id: ParaId) -> ChainSpec {
 
 pub fn staging_test_net(id: ParaId) -> ChainSpec {
 	ChainSpec::from_genesis(
-		"Staging Testnet",
-		"staging_testnet",
+		"KILT Collator Staging Testnet",
+		"kilt_collator_staging_testnet",
 		ChainType::Live,
 		move || {
 			testnet_genesis(
@@ -119,7 +119,7 @@ pub fn staging_test_net(id: ParaId) -> ChainSpec {
 		None,
 		None,
 		Extensions {
-			relay_chain: "rococo_local_testnet".into(),
+			relay_chain: "rococo_staging_testnet".into(),
 			para_id: id.into(),
 		},
 	)

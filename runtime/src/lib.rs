@@ -39,16 +39,12 @@ use sp_std::prelude::*;
 use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
 
-// pub use consensus::Call as ConsensusCall;
 pub use pallet_balances::Call as BalancesCall;
 
 pub use frame_support::{
 	construct_runtime, parameter_types,
-	traits::{KeyOwnerProofSystem, Randomness},
-	weights::{
-		constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
-		IdentityFee, Weight,
-	},
+	traits::Randomness,
+	weights::{constants::WEIGHT_PER_SECOND, IdentityFee, Weight},
 	StorageValue,
 };
 pub use pallet_timestamp::Call as TimestampCall;
@@ -58,6 +54,7 @@ pub use sp_runtime::{KeyTypeId, Perbill, Permill};
 
 pub use attestation;
 pub use ctype;
+pub use cumulus_token_dealer;
 pub use delegation;
 pub use did;
 pub use error;
@@ -66,10 +63,11 @@ pub use portablegabi;
 /// An index to a block.
 pub type BlockNumber = u64;
 
-/// The type used by accounts to prove their ID.
+/// Alias to 512-bit hash when used in the context of a transaction signature on the chain.
 pub type Signature = MultiSignature;
 
-/// Alias to pubkey that identifies an account on the chain.
+/// Some way of identifying an account on the chain. We intentionally make it equivalent
+/// to the public key of our transaction signing scheme.
 pub type AccountId = <<Signature as Verify>::Signer as IdentifyAccount>::AccountId;
 
 /// The type for looking up accounts. We don't expect more than 4 billion of them, but you
@@ -104,6 +102,8 @@ pub mod opaque {
 	/// Opaque block identifier type.
 	pub type BlockId = generic::BlockId<Block>;
 
+	pub type SessionHandlers = ();
+
 	impl_opaque_keys! {
 		pub struct SessionKeys {
 		}
@@ -112,11 +112,11 @@ pub mod opaque {
 
 /// This runtime version.
 pub const VERSION: RuntimeVersion = RuntimeVersion {
-	spec_name: create_runtime_str!("kilt-collator"),
-	impl_name: create_runtime_str!("kilt-collator"),
-	authoring_version: 4,
-	spec_version: 5,
-	impl_version: 5,
+	spec_name: create_runtime_str!("mashnet-node"),
+	impl_name: create_runtime_str!("mashnet-node"),
+	authoring_version: 1,
+	spec_version: 1,
+	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 1,
 };
@@ -125,7 +125,17 @@ pub const MILLISECS_PER_BLOCK: u64 = 10000;
 
 pub const SLOT_DURATION: u64 = MILLISECS_PER_BLOCK;
 
-/// The version information used to identify this runtime when compiled natively.
+pub const EPOCH_DURATION_IN_BLOCKS: u64 = 10 * MINUTES;
+
+// These time units are defined in number of blocks.
+pub const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
+pub const HOURS: BlockNumber = MINUTES * 60;
+pub const DAYS: BlockNumber = HOURS * 24;
+
+// 1 in 4 blocks (on average, not counting collisions) will be primary babe blocks.
+pub const PRIMARY_PROBABILITY: (u64, u64) = (1, 4);
+
+/// The version infromation used to identify this runtime when compiled natively.
 #[cfg(feature = "std")]
 pub fn native_version() -> NativeVersion {
 	NativeVersion {
@@ -144,11 +154,11 @@ parameter_types! {
 		.saturating_sub(Perbill::from_percent(10)) * MaximumBlockWeight::get();
 	pub const MaximumBlockLength: u32 = 5 * 1024 * 1024;
 	pub const Version: RuntimeVersion = VERSION;
+	pub const ExtrinsicBaseWeight: Weight = 10_000_000;
+
 }
 
 impl frame_system::Trait for Runtime {
-	/// Filters Calls. We currently don't want to filter calls.
-	type BaseCallFilter = ();
 	/// The identifier used to distinguish between accounts.
 	type AccountId = AccountId;
 	/// The aggregated dispatch type that is available for extrinsics.
@@ -171,37 +181,24 @@ impl frame_system::Trait for Runtime {
 	type Origin = Origin;
 	/// Maximum number of block number to block hash mappings to keep (oldest pruned first).
 	type BlockHashCount = BlockHashCount;
-	/// Maximum weight of each block.
+	/// Maximum weight of each block. With a default weight system of 1byte == 1weight, 4mb is ok.
 	type MaximumBlockWeight = MaximumBlockWeight;
-	/// The weight of database operations that the runtime can invoke.
-	type DbWeight = RocksDbWeight;
-	/// The weight of the overhead invoked on the block import process, independent of the
-	/// extrinsics included in that block.
-	type BlockExecutionWeight = BlockExecutionWeight;
-	/// The base weight of any extrinsic processed by the runtime, independent of the
-	/// logic of that extrinsic. (Signature verification, nonce increment, fee, etc...)
-	type ExtrinsicBaseWeight = ExtrinsicBaseWeight;
-	/// The maximum weight that a single extrinsic of `Normal` dispatch class can have,
-	/// independent of the logic of that extrinsics. (Roughly max block weight - average on
-	/// initialize cost).
-	type MaximumExtrinsicWeight = MaximumExtrinsicWeight;
 	/// Maximum size of all encoded transactions (in bytes) that are allowed in one block.
 	type MaximumBlockLength = MaximumBlockLength;
 	/// Portion of the block weight that is available to all normal transactions.
 	type AvailableBlockRatio = AvailableBlockRatio;
-	/// Version of the runtime.
+	/// Runtime version.
 	type Version = Version;
-	/// Converts a module to the index of the module in `construct_runtime!`.
-	///
-	/// This type is being generated by `construct_runtime!`.
+	/// Converts a module to an index of this module in the runtime.
 	type ModuleToIndex = ModuleToIndex;
-	/// What to do if a new account is created.
-	type OnNewAccount = ();
-	/// What to do if an account is fully reaped from the system.
-	type OnKilledAccount = ();
-	/// The data to be stored in an account.
 	type AccountData = pallet_balances::AccountData<Balance>;
-	/// Weight information for the extrinsics of this pallet.
+	type OnNewAccount = ();
+	type OnKilledAccount = ();
+	type DbWeight = ();
+	type ExtrinsicBaseWeight = ExtrinsicBaseWeight;
+	type BlockExecutionWeight = ();
+	type MaximumExtrinsicWeight = MaximumExtrinsicWeight;
+	type BaseCallFilter = ();
 	type SystemWeightInfo = ();
 }
 
@@ -217,22 +214,19 @@ impl pallet_timestamp::Trait for Runtime {
 	type WeightInfo = ();
 }
 
-impl parachain_info::Trait for Runtime {}
-
 parameter_types! {
-	pub const Deposit: Balance = 1_000;
+	pub const ExistentialDeposit: u128 = 500;
+	pub const TransferFee: u128 = 0;
+	pub const CreationFee: u128 = 0;
+	pub const TransactionByteFee: u128 = 1;
 }
 
 impl pallet_indices::Trait for Runtime {
 	type AccountIndex = Index;
 	type Currency = pallet_balances::Module<Runtime>;
-	type Deposit = Deposit;
+	type Deposit = ExistentialDeposit;
 	type Event = Event;
 	type WeightInfo = ();
-}
-
-parameter_types! {
-	pub const ExistentialDeposit: Balance = 500;
 }
 
 impl pallet_balances::Trait for Runtime {
@@ -246,12 +240,8 @@ impl pallet_balances::Trait for Runtime {
 	type WeightInfo = ();
 }
 
-parameter_types! {
-	pub const TransactionByteFee: Balance = 0;
-}
-
 impl pallet_transaction_payment::Trait for Runtime {
-	type Currency = pallet_balances::Module<Runtime>;
+	type Currency = Balances;
 	type OnTransactionPayment = ();
 	type TransactionByteFee = TransactionByteFee;
 	type WeightToFee = IdentityFee<Balance>;
@@ -259,13 +249,32 @@ impl pallet_transaction_payment::Trait for Runtime {
 }
 
 impl pallet_sudo::Trait for Runtime {
-	type Event = Event;
 	type Call = Call;
+	type Event = Event;
 }
 
 impl cumulus_parachain_upgrade::Trait for Runtime {
 	type Event = Event;
 	type OnValidationFunctionParams = ();
+}
+
+impl cumulus_message_broker::Trait for Runtime {
+	type Event = Event;
+	type DownwardMessageHandlers = TokenDealer;
+	type UpwardMessage = cumulus_upward_message::RococoUpwardMessage;
+	type ParachainId = ParachainInfo;
+	type XCMPMessage = cumulus_token_dealer::XCMPMessage<AccountId, Balance>;
+	type XCMPMessageHandlers = TokenDealer;
+}
+
+impl parachain_info::Trait for Runtime {}
+
+impl cumulus_token_dealer::Trait for Runtime {
+	type Event = Event;
+	type UpwardMessageSender = MessageBroker;
+	type UpwardMessage = cumulus_upward_message::RococoUpwardMessage;
+	type Currency = Balances;
+	type XCMPMessageSender = MessageBroker;
 }
 
 impl attestation::Trait for Runtime {
@@ -307,30 +316,31 @@ impl error::Trait for Runtime {
 	type Event = Event;
 }
 
-construct_runtime!(
+construct_runtime! {
 	pub enum Runtime where
 		Block = Block,
 		NodeBlock = opaque::Block,
 		UncheckedExtrinsic = UncheckedExtrinsic
 	{
-		System: frame_system::{Module, Call, Config, Storage, Event<T>},
-		RandomnessCollectiveFlip:  pallet_randomness_collective_flip::{Module, Call, Storage},
+		System: frame_system::{Module, Call, Storage, Config, Event<T>},
 		Timestamp: pallet_timestamp::{Module, Call, Storage, Inherent},
-		Indices: pallet_indices::{Module, Call, Storage, Event<T>},
 		Balances: pallet_balances::{Module, Call, Storage, Config<T>, Event<T>},
+		Sudo: pallet_sudo::{Module, Call, Storage, Config<T>, Event<T>},
+		RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Module, Call, Storage},
+		ParachainUpgrade: cumulus_parachain_upgrade::{Module, Call, Storage, Inherent, Event},
+		MessageBroker: cumulus_message_broker::{Module, Call, Inherent, Event<T>},
 		TransactionPayment: pallet_transaction_payment::{Module, Storage},
-		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
-
+		ParachainInfo: parachain_info::{Module, Storage, Config},
+		TokenDealer: cumulus_token_dealer::{Module, Call, Event<T>},
+		Indices: pallet_indices::{Module, Call, Storage, Event<T>},
 		Ctype: ctype::{Module, Call, Storage, Event<T>},
 		Attestation: attestation::{Module, Call, Storage, Event<T>},
 		Delegation: delegation::{Module, Call, Storage, Event<T>},
 		Did: did::{Module, Call, Storage, Event<T>},
 		Portablegabi: portablegabi::{Module, Call, Storage, Event<T>},
 		Error: error::{ Module, Call, Event<T>},
-		ParachainInfo: parachain_info::{Module, Storage, Config},
-		ParachainUpgrade: cumulus_parachain_upgrade::{Module, Call, Storage, Inherent, Event},
 	}
-);
+}
 
 /// The address format for describing accounts.
 pub type Address = AccountId;
@@ -383,6 +393,12 @@ impl_runtime_apis! {
 	impl sp_api::Metadata<Block> for Runtime {
 		fn metadata() -> OpaqueMetadata {
 			Runtime::metadata().into()
+		}
+	}
+
+	impl frame_system_rpc_runtime_api::AccountNonceApi<Block, AccountId, Index> for Runtime {
+		fn account_nonce(account: AccountId) -> Index {
+			frame_system::Module::<Runtime>::account_nonce(&account)
 		}
 	}
 
