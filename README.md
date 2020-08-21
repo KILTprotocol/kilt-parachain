@@ -51,9 +51,9 @@ TODO
 
 I recommend checking out the [cumulus-workshop](https://substrate.dev/cumulus-workshop/#/3-parachains/1-launch) and following most of the steps described there, mainly 3. All following code is basically copied from there to have a one page overview for all required code. Please check out the workshop for explanations. The workshop targets
 
--   Polkadot @ `fd4b176`
--   Substrate Parachain Template @ `2710c42`
--   Polkadot JS Apps @ `46734ee`
+-   Polkadot @ `29e799da335b8a2fb621a724185dd1de13824ee5`
+-   Substrate Parachain Template @ `a67bbb8b6de7557c46794cfa8ccc5e74f09be75c`
+-   Polkadot JS Apps @ `e5113ecfd03e7e706a1f2c08b3b661e0e75f9e6e`
 
 ### 1.3. Relay Chain: Polkadot
 
@@ -112,12 +112,17 @@ target/release/kilt-collator \
 
 #### 1.4.3. Obtain Genesis Head
 
-Copy from your logs
+Copy from your logs or use 
 
 ```
 2020-08-19 16:46:15 Parachain genesis state: 0x00000000000000000000000000000000000000000000000000000000000000000081f8f537ea138d3340db11484e3d862c9f1faf6742c019cb58fea3f087a5b48c03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c11131400
 ```
 
+**Or:** Actually, there is a command for generating the genesis but I had trouble using the produced head when registering a parachain-id other than 200.
+Therefore, I went with the above.
+```
+./target/release/kilt-collator export-genesis-state --parachain-id 300 > para-300-genesis
+```
 
 #### 1.4.4. Register parachain in Apps
 
