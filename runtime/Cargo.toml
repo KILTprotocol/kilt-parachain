@@ -57,12 +57,12 @@ wasm-builder-runner = { package = "substrate-wasm-builder-runner", version = "1.
 [features]
 default = [ "std" ]
 std = [
-	"attestation/std",
-	"ctype/std",
-	"did/std",
-	"error/std",
-	"delegation/std",
-	"portablegabi/std",
+	# "attestation/std",
+	# "ctype/std",
+	# "did/std",
+	# "error/std",
+	# "delegation/std",
+	# "portablegabi/std",
 	"codec/std",
 	"serde",
 	"sp-arithmetic/std",
