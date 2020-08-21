@@ -1,14 +1,36 @@
 ![](https://user-images.githubusercontent.com/1248214/57789522-600fcc00-7739-11e9-86d9-73d7032f40fc.png)
 
-[![Build and Test](https://github.com/KILTprotocol/kilt-collator/workflows/Build%20and%20Test/badge.svg)](https://github.com/KILTprotocol/kilt-collator/actions)
+<!-- [![Build and Test](https://github.com/KILTprotocol/kilt-collator/workflows/Build%20and%20Test/badge.svg)](https://github.com/KILTprotocol/kilt-collator/actions) -->
 
 # KILT kilt-collator <!-- omit in toc -->
 
 The KILT parachain collators use Parity Substrate as the underlying blockchain
 technology stack extended with our DID, CType, Attestation and hierarchical Trust Modules.
 
--   [1. How to use](#1-how-to-use) - [1.1. How to use TL;DR](#11-how-to-use-tldr) - [1.2. How to use longer](#12-how-to-use-longer) - [1.3. Relay Chain: Polkadot](#13-relay-chain-polkadot) - [1.3.1. Start Alice's Node](#131-start-alices-node) - [1.3.2. Start Bob's Node](#132-start-bobs-node) - [1.4. KILT Collator](#14-kilt-collator) - [1.4.1. Generate Genesis State](#141-generate-genesis-state) - [1.4.2. Obtain WASM Validation Function](#142-obtain-wasm-validation-function) - [1.4.3. Start Collator Node](#143-start-collator-node) - [1.4.4. Register parachain in Apps](#144-register-parachain-in-apps)
--   [2. Node Modules functionalities](#2-node-modules-functionalities) - [2.1. DID Module](#21-did-module) - [2.1.1. Add](#211-add) - [2.1.2. CRUD](#212-crud) - [2.2. CTYPE Module](#22-ctype-module) - [2.3. Attestation Module](#23-attestation-module) - [2.3.1. Add](#231-add) - [2.3.2. Revoke](#232-revoke) - [2.3.3. Lookup](#233-lookup) - [2.4. Hierarchy of Trust Module](#24-hierarchy-of-trust-module) - [2.4.1. Create root](#241-create-root) - [2.4.2. Add delegation](#242-add-delegation) - [2.4.3. Revoke](#243-revoke)
+- [1. How to use](#1-how-to-use)
+  - [1.1. How to use TL;DR](#11-how-to-use-tldr)
+  - [1.2. How to use longer](#12-how-to-use-longer)
+  - [1.3. Relay Chain: Polkadot](#13-relay-chain-polkadot)
+    - [1.3.1. Start Alice's Node](#131-start-alices-node)
+    - [1.3.2. Start Bob's Node](#132-start-bobs-node)
+  - [1.4. KILT Collator](#14-kilt-collator)
+    - [1.4.1. Obtain WASM Validation Function](#141-obtain-wasm-validation-function)
+    - [1.4.2. Start Collator Node](#142-start-collator-node)
+    - [1.4.3. Obtain Genesis Head](#143-obtain-genesis-head)
+    - [1.4.4. Register parachain in Apps](#144-register-parachain-in-apps)
+- [2. Node Modules functionalities](#2-node-modules-functionalities)
+  - [2.1. DID Module](#21-did-module)
+    - [2.1.1. Add](#211-add)
+    - [2.1.2. CRUD](#212-crud)
+  - [2.2. CTYPE Module](#22-ctype-module)
+  - [2.3. Attestation Module](#23-attestation-module)
+    - [2.3.1. Add](#231-add)
+    - [2.3.2. Revoke](#232-revoke)
+    - [2.3.3. Lookup](#233-lookup)
+  - [2.4. Hierarchy of Trust Module](#24-hierarchy-of-trust-module)
+    - [2.4.1. Create root](#241-create-root)
+    - [2.4.2. Add delegation](#242-add-delegation)
+    - [2.4.3. Revoke](#243-revoke)
 
 **Substrate Documentation**
 
@@ -61,26 +83,19 @@ target/release/polkadot \
   --ws-port 9955 \
   --port 30334 \
   --bob \
-  --bootnodes /ip4/<Alice IP>/tcp/30333/p2p/<Alice Peer ID>
 ```
 
 ### 1.4. KILT Collator
 
 Follow the instructions of [section 3](https://substrate.dev/cumulus-workshop/#/3-parachains/1-launch).
 
-#### 1.4.1. Generate Genesis State
-
-```
-target/release/kilt-collator export-genesis-state --parachain-id 200 > para-200-genesis
-```
-
-#### 1.4.2. Obtain WASM Validation Function
+#### 1.4.1. Obtain WASM Validation Function
 
 ```
 target/release/kilt-collator export-genesis-wasm > para-200-wasm
 ```
 
-#### 1.4.3. Start Collator Node
+#### 1.4.2. Start Collator Node
 
 This assumes your KILT collator repo is a sibling of your Polkadot repo used for the relay chain validators due to using the same precompiled local rococo chainspec.
 
@@ -93,9 +108,16 @@ target/release/kilt-collator \
   --validator \
   -- \
   --chain ../polkadot/rococo_local.json \
-  --bootnodes /ip4/<Alice IP>/tcp/30333/p2p/<Alice Peer ID> \
-  --bootnodes <Other Relay Chain Node(s)
 ```
+
+#### 1.4.3. Obtain Genesis Head
+
+Copy from your logs
+
+```
+2020-08-19 16:46:15 Parachain genesis state: 0x00000000000000000000000000000000000000000000000000000000000000000081f8f537ea138d3340db11484e3d862c9f1faf6742c019cb58fea3f087a5b48c03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c11131400
+```
+
 
 #### 1.4.4. Register parachain in Apps
 
@@ -104,7 +126,7 @@ target/release/kilt-collator \
     1. `id: 200`
     2. `info: ParaInfo` should be `Always`
     3. `code`: Add `para-200-wasm` file located in the root of your cumulus dir
-    4. `initial_head_data`: Add `para-200-genesis` from previous step
+    4. `initial_head_data`: Add from step 1.4.3
 3. Collator should start producing parachain blocks (aka collating) once the registration is successful. The collator should start producing log messages like the following:
 
 ```

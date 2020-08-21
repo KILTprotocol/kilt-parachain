@@ -32,6 +32,19 @@ use sp_core::hexdisplay::HexDisplay;
 use sp_runtime::traits::{Block as BlockT, Hash as HashT, Header as HeaderT, Zero};
 use std::{io::Write, net::SocketAddr, sync::Arc};
 
+fn load_spec(
+	id: &str,
+	para_id: ParaId,
+) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
+	match id {
+		"staging" => Ok(Box::new(chain_spec::staging_test_net(para_id)?)),
+		"" => Ok(Box::new(chain_spec::get_chain_spec(para_id)?)),
+		path => Ok(Box::new(chain_spec::ChainSpec::from_json_file(
+			path.into(),
+		)?)),
+	}
+}
+
 impl SubstrateCli for Cli {
 	fn impl_name() -> String {
 		"KILT collator".into()
@@ -64,17 +77,7 @@ impl SubstrateCli for Cli {
 	}
 
 	fn load_spec(&self, id: &str) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
-		match id {
-			"staging" => Ok(Box::new(chain_spec::staging_test_net(
-				self.run.parachain_id.unwrap_or(200).into(),
-			))),
-			"" => Ok(Box::new(chain_spec::get_chain_spec(
-				self.run.parachain_id.unwrap_or(200).into(),
-			))),
-			path => Ok(Box::new(chain_spec::ChainSpec::from_json_file(
-				path.into(),
-			)?)),
-		}
+		load_spec(id, self.run.parachain_id.unwrap_or(200).into())
 	}
 
 	fn native_runtime_version(_: &Box<dyn ChainSpec>) -> &'static RuntimeVersion {
@@ -167,7 +170,10 @@ pub fn run() -> Result<()> {
 			let runner = cli.create_runner(subcommand)?;
 
 			runner.run_subcommand(subcommand, |mut config| {
-				let params = crate::service::new_partial(&mut config)?;
+				let params = crate::service::new_partial::<
+					kilt_collator_runtime::RuntimeApi,
+					crate::service::RuntimeExecutor,
+				>(&mut config)?;
 
 				Ok((
 					params.client,
@@ -187,7 +193,7 @@ pub fn run() -> Result<()> {
 			if let Some(output) = &params.output {
 				std::fs::write(output, header_hex)?;
 			} else {
-				println!("{}", header_hex);
+				print!("{}", header_hex);
 			}
 
 			Ok(())
@@ -230,8 +236,10 @@ pub fn run() -> Result<()> {
 				let parachain_account =
 					AccountIdConversion::<polkadot_primitives::v0::AccountId>::into_account(&id);
 
-				let block =
-					generate_genesis_state(&config.chain_spec).map_err(|e| format!("{:?}", e))?;
+				let block = generate_genesis_state(&load_spec(
+					&params.chain.clone().unwrap_or_default(),
+					params.parachain_id.into(),
+				)?)?;
 				let genesis_state = format!("0x{:?}", HexDisplay::from(&block.header().encode()));
 
 				let task_executor = config.task_executor.clone();
@@ -247,8 +255,8 @@ pub fn run() -> Result<()> {
 					if cli.run.base.validator { "yes" } else { "no" }
 				);
 
-				crate::service::run_node(config, key, polkadot_config, id, cli.run.base.validator)
-					.map(|(x, _)| x)
+				crate::service::start_node(config, key, polkadot_config, id, cli.run.base.validator)
+					.map(|r| r.0)
 			})
 		}
 	}

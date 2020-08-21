@@ -25,18 +25,20 @@ use cumulus_network::DelayedBlockAnnounceValidator;
 use cumulus_service::{
 	prepare_node_config, start_collator, start_full_node, StartCollatorParams, StartFullNodeParams,
 };
+use kilt_collator_runtime::opaque::Block;
 use polkadot_primitives::v0::CollatorPair;
 use sc_executor::native_executor_instance;
 pub use sc_executor::NativeExecutor;
 use sc_informant::OutputFormat;
 use sc_service::{Configuration, PartialComponents, Role, TFullBackend, TFullClient, TaskManager};
+use sp_api::ConstructRuntimeApi;
 use sp_runtime::traits::BlakeTwo256;
 use sp_trie::PrefixedMemoryDB;
 use std::sync::Arc;
 
-// Our native executor instance.
+// Native executor instance.
 native_executor_instance!(
-	pub Executor,
+	pub RuntimeExecutor,
 	kilt_collator_runtime::api::dispatch,
 	kilt_collator_runtime::native_version,
 );
@@ -45,48 +47,46 @@ native_executor_instance!(
 ///
 /// Use this macro if you don't actually need the full service, but just the builder in order to
 /// be able to perform chain operations.
-pub fn new_partial(
+pub fn new_partial<RuntimeApi, Executor>(
 	config: &mut Configuration,
 ) -> Result<
 	PartialComponents<
-		TFullClient<
-			kilt_collator_runtime::opaque::Block,
-			kilt_collator_runtime::RuntimeApi,
-			crate::service::Executor,
-		>,
-		TFullBackend<kilt_collator_runtime::opaque::Block>,
+		TFullClient<Block, RuntimeApi, Executor>,
+		TFullBackend<Block>,
 		(),
-		sp_consensus::import_queue::BasicQueue<
-			kilt_collator_runtime::opaque::Block,
-			PrefixedMemoryDB<BlakeTwo256>,
-		>,
-		sc_transaction_pool::FullPool<
-			kilt_collator_runtime::opaque::Block,
-			TFullClient<
-				kilt_collator_runtime::opaque::Block,
-				kilt_collator_runtime::RuntimeApi,
-				crate::service::Executor,
-			>,
-		>,
+		sp_consensus::import_queue::BasicQueue<Block, PrefixedMemoryDB<BlakeTwo256>>,
+		sc_transaction_pool::FullPool<Block, TFullClient<Block, RuntimeApi, Executor>>,
 		(),
 	>,
 	sc_service::Error,
-> {
+>
+where
+	RuntimeApi: ConstructRuntimeApi<Block, TFullClient<Block, RuntimeApi, Executor>>
+		+ Send
+		+ Sync
+		+ 'static,
+	RuntimeApi::RuntimeApi: sp_transaction_pool::runtime_api::TaggedTransactionQueue<Block>
+		+ sp_api::Metadata<Block>
+		+ sp_session::SessionKeys<Block>
+		+ sp_api::ApiExt<
+			Block,
+			Error = sp_blockchain::Error,
+			StateBackend = sc_client_api::StateBackendFor<TFullBackend<Block>, Block>,
+		> + sp_offchain::OffchainWorkerApi<Block>
+		+ sp_block_builder::BlockBuilder<Block>,
+	sc_client_api::StateBackendFor<TFullBackend<Block>, Block>: sp_api::StateBackend<BlakeTwo256>,
+	Executor: sc_executor::NativeExecutionDispatch + 'static,
+{
 	let inherent_data_providers = sp_inherents::InherentDataProviders::new();
 
-	let (client, backend, keystore, task_manager) = sc_service::new_full_parts::<
-		kilt_collator_runtime::opaque::Block,
-		kilt_collator_runtime::RuntimeApi,
-		crate::service::Executor,
-	>(&config)?;
+	let (client, backend, keystore, task_manager) =
+		sc_service::new_full_parts::<Block, RuntimeApi, Executor>(&config)?;
 	let client = Arc::new(client);
-	//let select_chain = sc_consensus::LongestChain::new(backend.clone());
 
 	let registry = config.prometheus_registry();
 
 	let transaction_pool = sc_transaction_pool::BasicPool::new_full(
 		config.transaction_pool.clone(),
-		//std::sync::Arc::new(pool_api),
 		config.prometheus_registry(),
 		task_manager.spawn_handle(),
 		client.clone(),
@@ -115,25 +115,33 @@ pub fn new_partial(
 	Ok(params)
 }
 
-/// Run a node with the given parachain `Configuration` and relay chain `Configuration`
+/// Start a node with the given parachain `Configuration` and relay chain `Configuration`.
 ///
-/// This function blocks until done.
-pub fn run_node(
+/// This is the actual implementation that is abstract over the executor and the runtime api.
+fn start_node_impl<RuntimeApi, Executor>(
 	parachain_config: Configuration,
 	collator_key: Arc<CollatorPair>,
 	mut polkadot_config: polkadot_collator::Configuration,
 	id: polkadot_primitives::v0::Id,
 	validator: bool,
-) -> sc_service::error::Result<(
-	TaskManager,
-	Arc<
-		TFullClient<
-			kilt_collator_runtime::opaque::Block,
-			kilt_collator_runtime::RuntimeApi,
-			crate::service::Executor,
-		>,
-	>,
-)> {
+) -> sc_service::error::Result<(TaskManager, Arc<TFullClient<Block, RuntimeApi, Executor>>)>
+where
+	RuntimeApi: ConstructRuntimeApi<Block, TFullClient<Block, RuntimeApi, Executor>>
+		+ Send
+		+ Sync
+		+ 'static,
+	RuntimeApi::RuntimeApi: sp_transaction_pool::runtime_api::TaggedTransactionQueue<Block>
+		+ sp_api::Metadata<Block>
+		+ sp_session::SessionKeys<Block>
+		+ sp_api::ApiExt<
+			Block,
+			Error = sp_blockchain::Error,
+			StateBackend = sc_client_api::StateBackendFor<TFullBackend<Block>, Block>,
+		> + sp_offchain::OffchainWorkerApi<Block>
+		+ sp_block_builder::BlockBuilder<Block>,
+	sc_client_api::StateBackendFor<TFullBackend<Block>, Block>: sp_api::StateBackend<BlakeTwo256>,
+	Executor: sc_executor::NativeExecutionDispatch + 'static,
+{
 	if matches!(parachain_config.role, Role::Light) {
 		return Err("Light client not supported!".into());
 	}
@@ -149,7 +157,7 @@ pub fn run_node(
 		prefix: format!("[{}] ", Color::Blue.bold().paint("Relaychain")),
 	};
 
-	let params = new_partial(&mut parachain_config)?;
+	let params = new_partial::<RuntimeApi, Executor>(&mut parachain_config)?;
 	params
 		.inherent_data_providers
 		.register_provider(sp_timestamp::InherentDataProvider)
@@ -237,4 +245,24 @@ pub fn run_node(
 	start_network.start_network();
 
 	Ok((task_manager, client))
+}
+
+/// Start a normal parachain node.
+pub fn start_node(
+	parachain_config: Configuration,
+	collator_key: Arc<CollatorPair>,
+	polkadot_config: polkadot_collator::Configuration,
+	id: polkadot_primitives::v0::Id,
+	validator: bool,
+) -> sc_service::error::Result<(
+	TaskManager,
+	Arc<TFullClient<Block, kilt_collator_runtime::RuntimeApi, RuntimeExecutor>>,
+)> {
+	start_node_impl::<kilt_collator_runtime::RuntimeApi, RuntimeExecutor>(
+		parachain_config,
+		collator_key,
+		polkadot_config,
+		id,
+		validator,
+	)
 }
