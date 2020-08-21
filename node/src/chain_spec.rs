@@ -106,7 +106,7 @@ pub fn get_chain_spec(id: ParaId) -> Result<ChainSpec, String> {
 	))
 }
 
-pub fn staging_test_net(id: ParaId) -> ChainSpec {
+pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
 	let mut properties = Properties::new();
 	properties.insert("tokenSymbol".into(), "KILT".into());
 	properties.insert("tokenDecimals".into(), 18.into());

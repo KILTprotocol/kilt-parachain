@@ -17,7 +17,6 @@
 // If you feel like getting in touch with us, you can do so at info@botlabs.org
 
 //! The KILT runtime. This can be compiled with `#[no_std]`, ready for Wasm.
-#![warn(clippy::all)]
 #![cfg_attr(not(feature = "std"), no_std)]
 // `construct_runtime!` does a lot of recursion and requires us to increase the limit to 256.
 #![recursion_limit = "256"]
@@ -41,6 +40,7 @@ use sp_version::RuntimeVersion;
 
 pub use pallet_balances::Call as BalancesCall;
 
+pub use cumulus_token_dealer;
 pub use frame_support::{
 	construct_runtime, parameter_types,
 	traits::Randomness,
@@ -50,11 +50,10 @@ pub use frame_support::{
 pub use pallet_timestamp::Call as TimestampCall;
 #[cfg(any(feature = "std", test))]
 pub use sp_runtime::BuildStorage;
-pub use sp_runtime::{KeyTypeId, Perbill, Permill};
+pub use sp_runtime::{Perbill, Permill};
 
 pub use attestation;
 pub use ctype;
-pub use cumulus_token_dealer;
 pub use delegation;
 pub use did;
 pub use error;
@@ -141,14 +140,13 @@ parameter_types! {
 	pub const BlockHashCount: BlockNumber = 2400;
 	/// We allow for 3 seconds of compute with a 10 second average block time.
 	pub const MaximumBlockWeight: Weight = 3 * WEIGHT_PER_SECOND;
-	pub const AvailableBlockRatio: Perbill = Perbill::from_percent(75);
 	/// Assume 10% of weight for average on_initialize calls.
 	pub MaximumExtrinsicWeight: Weight = AvailableBlockRatio::get()
-		.saturating_sub(Perbill::from_percent(10)) * MaximumBlockWeight::get();
+	.saturating_sub(Perbill::from_percent(10)) * MaximumBlockWeight::get();
+	pub const AvailableBlockRatio: Perbill = Perbill::from_percent(75);
 	pub const MaximumBlockLength: u32 = 5 * 1024 * 1024;
 	pub const Version: RuntimeVersion = VERSION;
 	pub const ExtrinsicBaseWeight: Weight = 10_000_000;
-
 }
 
 impl frame_system::Trait for Runtime {

@@ -186,8 +186,10 @@ pub fn run() -> Result<()> {
 		Some(Subcommand::ExportGenesisState(params)) => {
 			sc_cli::init_logger("");
 
-			let block =
-				generate_genesis_state(&cli.load_spec(&params.chain.clone().unwrap_or_default())?)?;
+			let block = generate_genesis_state(&load_spec(
+				&params.chain.clone().unwrap_or_default(),
+				params.parachain_id.into(),
+			)?)?;
 			let header_hex = format!("0x{:?}", HexDisplay::from(&block.header().encode()));
 
 			if let Some(output) = &params.output {
@@ -236,10 +238,8 @@ pub fn run() -> Result<()> {
 				let parachain_account =
 					AccountIdConversion::<polkadot_primitives::v0::AccountId>::into_account(&id);
 
-				let block = generate_genesis_state(&load_spec(
-					&params.chain.clone().unwrap_or_default(),
-					params.parachain_id.into(),
-				)?)?;
+				let block =
+					generate_genesis_state(&config.chain_spec).map_err(|e| format!("{:?}", e))?;
 				let genesis_state = format!("0x{:?}", HexDisplay::from(&block.header().encode()));
 
 				let task_executor = config.task_executor.clone();

@@ -325,23 +325,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "065374052e7df7ee4047b1160cca5e1467a12351a40b3da123c870ba0b8eda2a"
 
 [[package]]
-name = "attestation"
-version = "0.23.0"
-source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#78e1e379ded0bb5c5fec93cbefa46723c3544c15"
-dependencies = [
- "ctype",
- "delegation",
- "error",
- "frame-support 2.0.0-rc6",
- "frame-system 2.0.0-rc6",
- "parity-scale-codec",
- "sp-io 2.0.0-rc6",
- "sp-runtime 2.0.0-rc6",
- "sp-std 2.0.0-rc6",
- "substrate-wasm-builder-runner 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "atty"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -498,12 +481,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "blake3"
+version = "0.3.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ce4f9586c9a3151c4b49b19e82ba163dd073614dd057e53c969e1a4db5b52720"
+dependencies = [
+ "arrayref",
+ "arrayvec 0.5.1",
+ "cc",
+ "cfg-if",
+ "constant_time_eq",
+ "crypto-mac 0.8.0",
+ "digest 0.9.0",
+]
+
+[[package]]
 name = "block-buffer"
 version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c0940dc441f31689269e10ac70eb1002a3a1d3ad1390e030043662eb7fe4688b"
 dependencies = [
- "block-padding",
+ "block-padding 0.1.5",
  "byte-tools",
  "byteorder",
  "generic-array 0.12.3",
@@ -515,6 +513,7 @@ version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4152116fd6e9dadb291ae18fc1ec3575ed6d84c29642d97890f4b4a3417297e4"
 dependencies = [
+ "block-padding 0.2.1",
  "generic-array 0.14.4",
 ]
 
@@ -535,6 +534,12 @@ checksum = "fa79dedbb091f449f1f39e53edf88d5dbe95f895dae6135a8d7b881fb5af73f5"
 dependencies = [
  "byte-tools",
 ]
+
+[[package]]
+name = "block-padding"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8d696c370c750c948ada61c69a0ee2cbbb9c50b1019ddb86d9317157a99c2cae"
 
 [[package]]
 name = "blocking"
@@ -961,21 +966,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "ctype"
-version = "0.23.0"
-source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#78e1e379ded0bb5c5fec93cbefa46723c3544c15"
-dependencies = [
- "error",
- "frame-support 2.0.0-rc6",
- "frame-system 2.0.0-rc6",
- "parity-scale-codec",
- "sp-io 2.0.0-rc6",
- "sp-runtime 2.0.0-rc6",
- "sp-std 2.0.0-rc6",
- "substrate-wasm-builder-runner 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "cumulus-collator"
 version = "0.1.0"
 source = "git+https://github.com/paritytech/cumulus?rev=35f60b1e90145714730d372b5067d9c392884ac9#35f60b1e90145714730d372b5067d9c392884ac9"
@@ -995,7 +985,7 @@ dependencies = [
  "polkadot-validation",
  "sc-cli",
  "sc-client-api",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-consensus",
  "sp-core 2.0.0-rc5",
@@ -1014,7 +1004,7 @@ dependencies = [
  "polkadot-primitives",
  "polkadot-runtime",
  "sc-client-api",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-block-builder",
  "sp-blockchain",
  "sp-consensus",
@@ -1056,7 +1046,7 @@ dependencies = [
  "polkadot-primitives",
  "polkadot-statement-table",
  "polkadot-validation",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-consensus",
  "sp-core 2.0.0-rc5",
@@ -1072,7 +1062,7 @@ dependencies = [
  "cumulus-runtime",
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
- "pallet-balances 2.0.0-rc5",
+ "pallet-balances",
  "parity-scale-codec",
  "polkadot-parachain",
  "serde",
@@ -1132,7 +1122,7 @@ dependencies = [
  "polkadot-service",
  "sc-client-api",
  "sc-service",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-consensus",
  "sp-core 2.0.0-rc5",
@@ -1200,23 +1190,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d4d0e2d24e5ee3b23a01de38eefdcd978907890701f08ffffd4cb457ca4ee8d6"
 
 [[package]]
-name = "delegation"
-version = "0.23.0"
-source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#78e1e379ded0bb5c5fec93cbefa46723c3544c15"
-dependencies = [
- "bitflags",
- "ctype",
- "error",
- "frame-support 2.0.0-rc6",
- "frame-system 2.0.0-rc6",
- "parity-scale-codec",
- "sp-io 2.0.0-rc6",
- "sp-runtime 2.0.0-rc6",
- "sp-std 2.0.0-rc6",
- "substrate-wasm-builder-runner 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "derive_more"
 version = "0.14.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1251,18 +1224,6 @@ dependencies = [
  "proc-macro2 1.0.19",
  "quote 1.0.7",
  "syn 1.0.38",
-]
-
-[[package]]
-name = "did"
-version = "0.23.0"
-source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#78e1e379ded0bb5c5fec93cbefa46723c3544c15"
-dependencies = [
- "frame-support 2.0.0-rc6",
- "frame-system 2.0.0-rc6",
- "parity-scale-codec",
- "sp-runtime 2.0.0-rc6",
- "sp-std 2.0.0-rc6",
 ]
 
 [[package]]
@@ -1649,7 +1610,7 @@ dependencies = [
  "linregress",
  "parity-scale-codec",
  "paste",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-io 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
  "sp-runtime-interface 2.0.0-rc5",
@@ -1657,30 +1618,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "frame-benchmarking"
-version = "2.0.0-rc6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d7d92ab79f0c46fe4347d5073a0e331d935ca8d8bde0d001c8938900716685c3"
-dependencies = [
- "frame-support 2.0.0-rc6",
- "frame-system 2.0.0-rc6",
- "linregress",
- "parity-scale-codec",
- "paste",
- "sp-api 2.0.0-rc6",
- "sp-io 2.0.0-rc6",
- "sp-runtime 2.0.0-rc6",
- "sp-runtime-interface 2.0.0-rc6",
- "sp-std 2.0.0-rc6",
- "sp-storage 2.0.0-rc6",
-]
-
-[[package]]
 name = "frame-benchmarking-cli"
 version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
- "frame-benchmarking 2.0.0-rc5",
+ "frame-benchmarking",
  "parity-scale-codec",
  "sc-cli",
  "sc-client-db",
@@ -1890,7 +1832,7 @@ version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
  "parity-scale-codec",
- "sp-api 2.0.0-rc5",
+ "sp-api",
 ]
 
 [[package]]
@@ -2845,7 +2787,7 @@ dependencies = [
  "sc-service",
  "sc-transaction-pool",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-block-builder",
  "sp-blockchain",
  "sp-consensus",
@@ -2870,23 +2812,19 @@ dependencies = [
 name = "kilt-collator-runtime"
 version = "0.23.0"
 dependencies = [
- "attestation",
  "bitflags",
- "ctype",
  "cumulus-message-broker",
  "cumulus-parachain-upgrade",
  "cumulus-primitives",
  "cumulus-runtime",
  "cumulus-token-dealer",
  "cumulus-upward-message",
- "delegation",
- "did",
  "error",
  "frame-executive",
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
  "frame-system-rpc-runtime-api",
- "pallet-balances 2.0.0-rc5",
+ "pallet-balances",
  "pallet-indices",
  "pallet-randomness-collective-flip",
  "pallet-sudo",
@@ -2894,9 +2832,8 @@ dependencies = [
  "pallet-transaction-payment",
  "parachain-info",
  "parity-scale-codec",
- "portablegabi",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-arithmetic 2.0.0-rc5",
  "sp-block-builder",
  "sp-core 2.0.0-rc5",
@@ -2925,7 +2862,7 @@ dependencies = [
  "pallet-authority-discovery",
  "pallet-authorship",
  "pallet-babe",
- "pallet-balances 2.0.0-rc5",
+ "pallet-balances",
  "pallet-collective",
  "pallet-democracy",
  "pallet-elections-phragmen",
@@ -2959,7 +2896,7 @@ dependencies = [
  "serde",
  "serde_derive",
  "smallvec 1.4.2",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-authority-discovery",
  "sp-block-builder",
  "sp-consensus-babe",
@@ -3671,17 +3608,18 @@ checksum = "0debeb9fcf88823ea64d64e4a815ab1643f33127d995978e099942ce38f25238"
 
 [[package]]
 name = "multihash"
-version = "0.11.2"
+version = "0.11.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f75db05d738947aa5389863aadafbcf2e509d7ba099dc2ddcdf4fc66bf7a9e03"
+checksum = "51cc1552a982658478dbc22eefb72bb1d4fd1161eb9818f7bbf4347443f07569"
 dependencies = [
  "blake2b_simd",
  "blake2s_simd",
- "digest 0.8.1",
- "sha-1",
- "sha2 0.8.2",
+ "blake3",
+ "digest 0.9.0",
+ "sha-1 0.9.1",
+ "sha2 0.9.1",
  "sha3",
- "unsigned-varint 0.3.3",
+ "unsigned-varint 0.5.0",
 ]
 
 [[package]]
@@ -3985,7 +3923,7 @@ name = "pallet-babe"
 version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
- "frame-benchmarking 2.0.0-rc5",
+ "frame-benchmarking",
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
  "pallet-authorship",
@@ -4010,28 +3948,13 @@ name = "pallet-balances"
 version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
- "frame-benchmarking 2.0.0-rc5",
+ "frame-benchmarking",
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
  "parity-scale-codec",
  "serde",
  "sp-runtime 2.0.0-rc5",
  "sp-std 2.0.0-rc5",
-]
-
-[[package]]
-name = "pallet-balances"
-version = "2.0.0-rc6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec78c836f1481626270edfa445c612ba8e3aa6601f418f31a9aa815ae3ab6584"
-dependencies = [
- "frame-benchmarking 2.0.0-rc6",
- "frame-support 2.0.0-rc6",
- "frame-system 2.0.0-rc6",
- "parity-scale-codec",
- "serde",
- "sp-runtime 2.0.0-rc6",
- "sp-std 2.0.0-rc6",
 ]
 
 [[package]]
@@ -4054,7 +3977,7 @@ name = "pallet-democracy"
 version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
- "frame-benchmarking 2.0.0-rc5",
+ "frame-benchmarking",
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
  "parity-scale-codec",
@@ -4099,7 +4022,7 @@ name = "pallet-grandpa"
 version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
- "frame-benchmarking 2.0.0-rc5",
+ "frame-benchmarking",
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
  "pallet-authorship",
@@ -4122,7 +4045,7 @@ version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
  "enumflags2",
- "frame-benchmarking 2.0.0-rc5",
+ "frame-benchmarking",
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
  "parity-scale-codec",
@@ -4217,7 +4140,7 @@ source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f
 dependencies = [
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
- "pallet-balances 2.0.0-rc5",
+ "pallet-balances",
  "parity-scale-codec",
  "serde",
  "sp-runtime 2.0.0-rc5",
@@ -4273,7 +4196,7 @@ name = "pallet-scheduler"
 version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
- "frame-benchmarking 2.0.0-rc5",
+ "frame-benchmarking",
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
  "parity-scale-codec",
@@ -4367,7 +4290,7 @@ name = "pallet-timestamp"
 version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
- "frame-benchmarking 2.0.0-rc5",
+ "frame-benchmarking",
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
  "impl-trait-for-tuples",
@@ -4407,7 +4330,7 @@ dependencies = [
  "pallet-transaction-payment-rpc-runtime-api",
  "parity-scale-codec",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-core 2.0.0-rc5",
  "sp-rpc",
@@ -4422,7 +4345,7 @@ dependencies = [
  "frame-support 2.0.0-rc5",
  "parity-scale-codec",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-runtime 2.0.0-rc5",
  "sp-std 2.0.0-rc5",
 ]
@@ -4434,7 +4357,7 @@ source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f
 dependencies = [
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
- "pallet-balances 2.0.0-rc5",
+ "pallet-balances",
  "parity-scale-codec",
  "serde",
  "sp-runtime 2.0.0-rc5",
@@ -4834,7 +4757,7 @@ dependencies = [
  "sc-client-api",
  "sc-keystore",
  "sc-network",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-consensus",
  "sp-core 2.0.0-rc5",
@@ -4856,7 +4779,7 @@ dependencies = [
  "sc-client-db",
  "sc-executor",
  "sc-service",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-core 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
  "sp-trie 2.0.0-rc5",
@@ -4884,7 +4807,7 @@ dependencies = [
  "sc-executor",
  "sc-network",
  "sc-service",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-consensus",
  "sp-core 2.0.0-rc5",
@@ -4937,7 +4860,7 @@ dependencies = [
  "rand 0.7.3",
  "sc-network",
  "sc-network-gossip",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-consensus",
  "sp-core 2.0.0-rc5",
@@ -4977,7 +4900,7 @@ dependencies = [
  "polkadot-core-primitives",
  "polkadot-parachain",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-application-crypto 2.0.0-rc5",
  "sp-arithmetic 2.0.0-rc5",
  "sp-core 2.0.0-rc5",
@@ -5006,7 +4929,7 @@ dependencies = [
  "sc-finality-grandpa-rpc",
  "sc-keystore",
  "sc-rpc",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-block-builder",
  "sp-blockchain",
  "sp-consensus",
@@ -5031,7 +4954,7 @@ dependencies = [
  "pallet-authority-discovery",
  "pallet-authorship",
  "pallet-babe",
- "pallet-balances 2.0.0-rc5",
+ "pallet-balances",
  "pallet-collective",
  "pallet-democracy",
  "pallet-elections-phragmen",
@@ -5063,7 +4986,7 @@ dependencies = [
  "serde",
  "serde_derive",
  "smallvec 1.4.2",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-authority-discovery",
  "sp-block-builder",
  "sp-consensus-babe",
@@ -5091,7 +5014,7 @@ dependencies = [
  "frame-system 2.0.0-rc5",
  "log 0.3.9",
  "pallet-authorship",
- "pallet-balances 2.0.0-rc5",
+ "pallet-balances",
  "pallet-offences",
  "pallet-session",
  "pallet-staking",
@@ -5104,7 +5027,7 @@ dependencies = [
  "rustc-hex",
  "serde",
  "serde_derive",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-core 2.0.0-rc5",
  "sp-inherents 2.0.0-rc5",
  "sp-io 2.0.0-rc5",
@@ -5124,7 +5047,7 @@ dependencies = [
  "frame-support 2.0.0-rc5",
  "frame-system 2.0.0-rc5",
  "pallet-authorship",
- "pallet-balances 2.0.0-rc5",
+ "pallet-balances",
  "pallet-offences",
  "pallet-session",
  "pallet-staking",
@@ -5136,7 +5059,7 @@ dependencies = [
  "rand_chacha 0.2.2",
  "rustc-hex",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-core 2.0.0-rc5",
  "sp-inherents 2.0.0-rc5",
  "sp-io 2.0.0-rc5",
@@ -5151,7 +5074,7 @@ name = "polkadot-service"
 version = "0.8.22"
 source = "git+https://github.com/paritytech/polkadot?branch=rococo-branch#29e799da335b8a2fb621a724185dd1de13824ee5"
 dependencies = [
- "frame-benchmarking 2.0.0-rc5",
+ "frame-benchmarking",
  "frame-system-rpc-runtime-api",
  "futures 0.3.5",
  "hex-literal",
@@ -5187,7 +5110,7 @@ dependencies = [
  "sc-transaction-pool",
  "serde",
  "slog",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-authority-discovery",
  "sp-block-builder",
  "sp-blockchain",
@@ -5230,7 +5153,7 @@ dependencies = [
  "pallet-authority-discovery",
  "pallet-authorship",
  "pallet-babe",
- "pallet-balances 2.0.0-rc5",
+ "pallet-balances",
  "pallet-finality-tracker",
  "pallet-grandpa",
  "pallet-indices",
@@ -5253,7 +5176,7 @@ dependencies = [
  "serde",
  "serde_derive",
  "smallvec 1.4.2",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-authority-discovery",
  "sp-block-builder",
  "sp-consensus-babe",
@@ -5287,7 +5210,7 @@ dependencies = [
  "sc-consensus",
  "sc-light",
  "sc-service",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-core 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
@@ -5299,7 +5222,7 @@ name = "polkadot-test-service"
 version = "0.8.2"
 source = "git+https://github.com/paritytech/polkadot?branch=rococo-branch#29e799da335b8a2fb621a724185dd1de13824ee5"
 dependencies = [
- "frame-benchmarking 2.0.0-rc5",
+ "frame-benchmarking",
  "frame-system 2.0.0-rc5",
  "futures 0.1.29",
  "futures 0.3.5",
@@ -5366,7 +5289,7 @@ dependencies = [
  "sc-client-api",
  "sc-finality-grandpa",
  "sc-keystore",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-consensus",
  "sp-consensus-babe",
@@ -5409,22 +5332,6 @@ checksum = "d9a50142b55ab3ed0e9f68dfb3709f1d90d29da24e91033f28b96330643107dc"
 dependencies = [
  "cfg-if",
  "universal-hash",
-]
-
-[[package]]
-name = "portablegabi"
-version = "0.23.0"
-source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#78e1e379ded0bb5c5fec93cbefa46723c3544c15"
-dependencies = [
- "error",
- "frame-support 2.0.0-rc6",
- "frame-system 2.0.0-rc6",
- "pallet-balances 2.0.0-rc6",
- "parity-scale-codec",
- "serde",
- "sp-io 2.0.0-rc6",
- "sp-runtime 2.0.0-rc6",
- "sp-std 2.0.0-rc6",
 ]
 
 [[package]]
@@ -6073,7 +5980,7 @@ dependencies = [
  "pallet-authority-discovery",
  "pallet-authorship",
  "pallet-babe",
- "pallet-balances 2.0.0-rc5",
+ "pallet-balances",
  "pallet-collective",
  "pallet-democracy",
  "pallet-elections-phragmen",
@@ -6109,7 +6016,7 @@ dependencies = [
  "serde",
  "serde_derive",
  "smallvec 1.4.2",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-authority-discovery",
  "sp-block-builder",
  "sp-consensus-babe",
@@ -6252,7 +6159,7 @@ dependencies = [
  "sc-keystore",
  "sc-network",
  "serde_json",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-authority-discovery",
  "sp-blockchain",
  "sp-core 2.0.0-rc5",
@@ -6273,7 +6180,7 @@ dependencies = [
  "sc-client-api",
  "sc-proposer-metrics",
  "sc-telemetry",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-consensus",
  "sp-core 2.0.0-rc5",
@@ -6291,7 +6198,7 @@ source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f
 dependencies = [
  "parity-scale-codec",
  "sc-client-api",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-block-builder",
  "sp-blockchain",
  "sp-consensus",
@@ -6386,7 +6293,7 @@ dependencies = [
  "parking_lot 0.10.2",
  "sc-executor",
  "sc-telemetry",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-consensus",
  "sp-core 2.0.0-rc5",
@@ -6473,7 +6380,7 @@ dependencies = [
  "sc-telemetry",
  "schnorrkel",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-application-crypto 2.0.0-rc5",
  "sp-block-builder",
  "sp-blockchain",
@@ -6505,7 +6412,7 @@ dependencies = [
  "sc-keystore",
  "sc-rpc-api",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-application-crypto 2.0.0-rc5",
  "sp-blockchain",
  "sp-consensus",
@@ -6539,7 +6446,7 @@ dependencies = [
  "parking_lot 0.10.2",
  "sc-client-api",
  "sc-telemetry",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-application-crypto 2.0.0-rc5",
  "sp-blockchain",
  "sp-consensus",
@@ -6579,7 +6486,7 @@ dependencies = [
  "sc-executor-common",
  "sc-executor-wasmi",
  "sc-executor-wasmtime",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-core 2.0.0-rc5",
  "sp-externalities 0.8.0-rc5",
  "sp-io 2.0.0-rc5",
@@ -6669,7 +6576,7 @@ dependencies = [
  "sc-network-gossip",
  "sc-telemetry",
  "serde_json",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-application-crypto 2.0.0-rc5",
  "sp-arithmetic 2.0.0-rc5",
  "sp-blockchain",
@@ -6745,7 +6652,7 @@ dependencies = [
  "parking_lot 0.10.2",
  "sc-client-api",
  "sc-executor",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-core 2.0.0-rc5",
  "sp-externalities 0.8.0-rc5",
@@ -6839,7 +6746,7 @@ dependencies = [
  "sc-client-api",
  "sc-keystore",
  "sc-network",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-core 2.0.0-rc5",
  "sp-offchain",
  "sp-runtime 2.0.0-rc5",
@@ -6887,7 +6794,7 @@ dependencies = [
  "sc-keystore",
  "sc-rpc-api",
  "serde_json",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-chain-spec",
  "sp-core 2.0.0-rc5",
@@ -6981,7 +6888,7 @@ dependencies = [
  "serde",
  "serde_json",
  "slog",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-application-crypto 2.0.0-rc5",
  "sp-block-builder",
  "sp-blockchain",
@@ -7092,7 +6999,7 @@ dependencies = [
  "parking_lot 0.10.2",
  "sc-client-api",
  "sc-transaction-graph",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-core 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
@@ -7282,6 +7189,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "sha-1"
+version = "0.9.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "170a36ea86c864a3f16dd2687712dd6646f7019f301e57537c7f4dc9f5916770"
+dependencies = [
+ "block-buffer 0.9.0",
+ "cfg-if",
+ "cpuid-bool",
+ "digest 0.9.0",
+ "opaque-debug 0.3.0",
+]
+
+[[package]]
 name = "sha2"
 version = "0.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7308,15 +7228,14 @@ dependencies = [
 
 [[package]]
 name = "sha3"
-version = "0.8.2"
+version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd26bc0e7a2e3a7c959bc494caf58b72ee0c71d67704e9520f736ca7e4853ecf"
+checksum = "f81199417d4e5de3f04b1e871023acea7389672c4135918f05aa9cbf2f2fa809"
 dependencies = [
- "block-buffer 0.7.3",
- "byte-tools",
- "digest 0.8.1",
+ "block-buffer 0.9.0",
+ "digest 0.9.0",
  "keccak",
- "opaque-debug 0.2.3",
+ "opaque-debug 0.3.0",
 ]
 
 [[package]]
@@ -7479,7 +7398,7 @@ dependencies = [
  "httparse",
  "log 0.4.11",
  "rand 0.7.3",
- "sha-1",
+ "sha-1 0.8.2",
 ]
 
 [[package]]
@@ -7501,7 +7420,7 @@ source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f
 dependencies = [
  "hash-db",
  "parity-scale-codec",
- "sp-api-proc-macro 2.0.0-rc5",
+ "sp-api-proc-macro",
  "sp-core 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
  "sp-state-machine 0.8.0-rc5",
@@ -7510,38 +7429,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "sp-api"
-version = "2.0.0-rc6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7467f7e20ded41f54cffec173588419dc9c3efb7fb1e73a4541a66774545f9cb"
-dependencies = [
- "hash-db",
- "parity-scale-codec",
- "sp-api-proc-macro 2.0.0-rc6",
- "sp-core 2.0.0-rc6",
- "sp-runtime 2.0.0-rc6",
- "sp-state-machine 0.8.0-rc6",
- "sp-std 2.0.0-rc6",
- "sp-version 2.0.0-rc6",
-]
-
-[[package]]
 name = "sp-api-proc-macro"
 version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
-dependencies = [
- "blake2-rfc",
- "proc-macro-crate",
- "proc-macro2 1.0.19",
- "quote 1.0.7",
- "syn 1.0.38",
-]
-
-[[package]]
-name = "sp-api-proc-macro"
-version = "2.0.0-rc6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "da136f7fbc99517e5f6f16401110a16240f99d2fbff738b8666b0b10a1d638c7"
 dependencies = [
  "blake2-rfc",
  "proc-macro-crate",
@@ -7608,7 +7498,7 @@ version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
  "parity-scale-codec",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-application-crypto 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
  "sp-std 2.0.0-rc5",
@@ -7631,7 +7521,7 @@ version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
  "parity-scale-codec",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-inherents 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
  "sp-std 2.0.0-rc5",
@@ -7676,7 +7566,7 @@ dependencies = [
  "parity-scale-codec",
  "parking_lot 0.10.2",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-core 2.0.0-rc5",
  "sp-inherents 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
@@ -7695,7 +7585,7 @@ version = "0.8.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
  "parity-scale-codec",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-application-crypto 2.0.0-rc5",
  "sp-inherents 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
@@ -7710,7 +7600,7 @@ source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f
 dependencies = [
  "merlin",
  "parity-scale-codec",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-application-crypto 2.0.0-rc5",
  "sp-consensus",
  "sp-consensus-slots",
@@ -7894,7 +7784,7 @@ dependencies = [
  "log 0.4.11",
  "parity-scale-codec",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-application-crypto 2.0.0-rc5",
  "sp-core 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
@@ -8018,7 +7908,7 @@ name = "sp-offchain"
 version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-core 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
 ]
@@ -8168,7 +8058,7 @@ version = "2.0.0-rc5"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f246fd0a0c8c2ef2f0b7576ecbed133ed78d"
 dependencies = [
  "parity-scale-codec",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-core 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
  "sp-staking",
@@ -8272,7 +8162,7 @@ source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#f397f
 dependencies = [
  "impl-trait-for-tuples",
  "parity-scale-codec",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-inherents 2.0.0-rc5",
  "sp-runtime 2.0.0-rc5",
  "sp-std 2.0.0-rc5",
@@ -8310,7 +8200,7 @@ dependencies = [
  "log 0.4.11",
  "parity-scale-codec",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-runtime 2.0.0-rc5",
 ]
@@ -8535,7 +8425,7 @@ dependencies = [
  "sc-client-api",
  "sc-rpc-api",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-block-builder",
  "sp-blockchain",
  "sp-core 2.0.0-rc5",
@@ -8601,7 +8491,7 @@ dependencies = [
  "parity-util-mem",
  "sc-service",
  "serde",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-application-crypto 2.0.0-rc5",
  "sp-block-builder",
  "sp-consensus-aura",
@@ -8635,7 +8525,7 @@ dependencies = [
  "sc-consensus",
  "sc-light",
  "sc-service",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-blockchain",
  "sp-consensus",
  "sp-core 2.0.0-rc5",
@@ -9378,12 +9268,6 @@ dependencies = [
 
 [[package]]
 name = "unsigned-varint"
-version = "0.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f67332660eb59a6f1eb24ff1220c9e8d01738a8503c6002e30bcfe4bd9f2b4a9"
-
-[[package]]
-name = "unsigned-varint"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "669d776983b692a906c881fcd0cfb34271a48e197e4d6cb8df32b05bfc3d3fa5"
@@ -9393,6 +9277,12 @@ dependencies = [
  "futures-util",
  "futures_codec",
 ]
+
+[[package]]
+name = "unsigned-varint"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a98e44fc6af1e18c3a06666d829b4fd8d2714fb2dbffe8ab99d5dc7ea6baa628"
 
 [[package]]
 name = "untrusted"
@@ -9821,7 +9711,7 @@ dependencies = [
  "pallet-authority-discovery",
  "pallet-authorship",
  "pallet-babe",
- "pallet-balances 2.0.0-rc5",
+ "pallet-balances",
  "pallet-collective",
  "pallet-democracy",
  "pallet-elections-phragmen",
@@ -9857,7 +9747,7 @@ dependencies = [
  "serde",
  "serde_derive",
  "smallvec 1.4.2",
- "sp-api 2.0.0-rc5",
+ "sp-api",
  "sp-authority-discovery",
  "sp-block-builder",
  "sp-consensus-babe",
@@ -9940,7 +9830,7 @@ dependencies = [
  "mio",
  "mio-extras",
  "rand 0.7.3",
- "sha-1",
+ "sha-1 0.8.2",
  "slab",
  "url 2.1.1",
 ]
