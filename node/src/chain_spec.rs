@@ -70,13 +70,14 @@ pub fn get_chain_spec(id: ParaId) -> Result<ChainSpec, String> {
 	let mut properties = Properties::new();
 	properties.insert("tokenSymbol".into(), "KILT".into());
 	properties.insert("tokenDecimals".into(), 18.into());
+	let wasm = WASM_BINARY.ok_or("No WASM")?;
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Local Testnet",
 		"kilt_collator_local_testnet",
 		ChainType::Local,
 		move || {
 			testnet_genesis(
-				WASM_BINARY,
+				wasm,
 				get_account_id_from_seed::<sr25519::Public>("Alice"),
 				vec![
 					get_account_id_from_seed::<sr25519::Public>("Alice"),
@@ -110,13 +111,14 @@ pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
 	let mut properties = Properties::new();
 	properties.insert("tokenSymbol".into(), "KILT".into());
 	properties.insert("tokenDecimals".into(), 18.into());
+	let wasm = WASM_BINARY.ok_or("No WASM")?;
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Staging Testnet",
 		"kilt_collator_staging_testnet",
 		ChainType::Live,
 		move || {
 			testnet_genesis(
-				WASM_BINARY,
+				wasm,
 				get_account_id_from_seed::<sr25519::Public>("Alice"),
 				vec![get_account_id_from_seed::<sr25519::Public>("Alice")],
 				id,
