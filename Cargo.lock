@@ -1010,12 +1010,12 @@ dependencies = [
 [[package]]
 name = "cumulus-collator"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?rev=2381e5a#2381e5addfa9cb5fbba3626fd47639667d0b3069"
+source = "git+https://github.com/paritytech/cumulus?rev=4e7f138c828bcf118df1c988a400d4dac8e904d9#4e7f138c828bcf118df1c988a400d4dac8e904d9"
 dependencies = [
  "cumulus-consensus",
  "cumulus-network",
- "cumulus-primitives 0.1.0 (git+https://github.com/paritytech/cumulus?rev=2381e5a)",
- "cumulus-runtime 0.1.0 (git+https://github.com/paritytech/cumulus?rev=2381e5a)",
+ "cumulus-primitives",
+ "cumulus-runtime",
  "futures 0.3.5",
  "log 0.4.11",
  "parity-scale-codec",
@@ -1038,7 +1038,7 @@ dependencies = [
 [[package]]
 name = "cumulus-consensus"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?rev=2381e5a#2381e5addfa9cb5fbba3626fd47639667d0b3069"
+source = "git+https://github.com/paritytech/cumulus?rev=4e7f138c828bcf118df1c988a400d4dac8e904d9#4e7f138c828bcf118df1c988a400d4dac8e904d9"
 dependencies = [
  "futures 0.3.5",
  "log 0.4.11",
@@ -1060,9 +1060,9 @@ dependencies = [
 [[package]]
 name = "cumulus-message-broker"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=master#4e7f138c828bcf118df1c988a400d4dac8e904d9"
+source = "git+https://github.com/paritytech/cumulus?rev=4e7f138c828bcf118df1c988a400d4dac8e904d9#4e7f138c828bcf118df1c988a400d4dac8e904d9"
 dependencies = [
- "cumulus-primitives 0.1.0 (git+https://github.com/paritytech/cumulus)",
+ "cumulus-primitives",
  "cumulus-upward-message",
  "frame-support",
  "frame-system",
@@ -1076,9 +1076,9 @@ dependencies = [
 [[package]]
 name = "cumulus-network"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?rev=2381e5a#2381e5addfa9cb5fbba3626fd47639667d0b3069"
+source = "git+https://github.com/paritytech/cumulus?rev=4e7f138c828bcf118df1c988a400d4dac8e904d9#4e7f138c828bcf118df1c988a400d4dac8e904d9"
 dependencies = [
- "cumulus-primitives 0.1.0 (git+https://github.com/paritytech/cumulus?rev=2381e5a)",
+ "cumulus-primitives",
  "futures 0.3.5",
  "log 0.4.11",
  "parity-scale-codec",
@@ -1098,10 +1098,10 @@ dependencies = [
 [[package]]
 name = "cumulus-parachain-upgrade"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=master#4e7f138c828bcf118df1c988a400d4dac8e904d9"
+source = "git+https://github.com/paritytech/cumulus?rev=4e7f138c828bcf118df1c988a400d4dac8e904d9#4e7f138c828bcf118df1c988a400d4dac8e904d9"
 dependencies = [
- "cumulus-primitives 0.1.0 (git+https://github.com/paritytech/cumulus)",
- "cumulus-runtime 0.1.0 (git+https://github.com/paritytech/cumulus)",
+ "cumulus-primitives",
+ "cumulus-runtime",
  "frame-support",
  "frame-system",
  "pallet-balances",
@@ -1119,22 +1119,7 @@ dependencies = [
 [[package]]
 name = "cumulus-primitives"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?rev=2381e5a#2381e5addfa9cb5fbba3626fd47639667d0b3069"
-dependencies = [
- "impl-trait-for-tuples",
- "parity-scale-codec",
- "polkadot-core-primitives",
- "polkadot-parachain",
- "polkadot-primitives",
- "sp-inherents",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "cumulus-primitives"
-version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=master#4e7f138c828bcf118df1c988a400d4dac8e904d9"
+source = "git+https://github.com/paritytech/cumulus?rev=4e7f138c828bcf118df1c988a400d4dac8e904d9#4e7f138c828bcf118df1c988a400d4dac8e904d9"
 dependencies = [
  "impl-trait-for-tuples",
  "parity-scale-codec",
@@ -1149,28 +1134,9 @@ dependencies = [
 [[package]]
 name = "cumulus-runtime"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?rev=2381e5a#2381e5addfa9cb5fbba3626fd47639667d0b3069"
+source = "git+https://github.com/paritytech/cumulus?rev=4e7f138c828bcf118df1c988a400d4dac8e904d9#4e7f138c828bcf118df1c988a400d4dac8e904d9"
 dependencies = [
- "cumulus-primitives 0.1.0 (git+https://github.com/paritytech/cumulus?rev=2381e5a)",
- "frame-executive",
- "hash-db",
- "memory-db",
- "parity-scale-codec",
- "polkadot-parachain",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sp-trie",
- "trie-db",
-]
-
-[[package]]
-name = "cumulus-runtime"
-version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=master#4e7f138c828bcf118df1c988a400d4dac8e904d9"
-dependencies = [
- "cumulus-primitives 0.1.0 (git+https://github.com/paritytech/cumulus)",
+ "cumulus-primitives",
  "frame-executive",
  "hash-db",
  "memory-db",
@@ -1187,12 +1153,12 @@ dependencies = [
 [[package]]
 name = "cumulus-service"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?rev=2381e5a#2381e5addfa9cb5fbba3626fd47639667d0b3069"
+source = "git+https://github.com/paritytech/cumulus?rev=4e7f138c828bcf118df1c988a400d4dac8e904d9#4e7f138c828bcf118df1c988a400d4dac8e904d9"
 dependencies = [
  "cumulus-collator",
  "cumulus-consensus",
  "cumulus-network",
- "cumulus-primitives 0.1.0 (git+https://github.com/paritytech/cumulus?rev=2381e5a)",
+ "cumulus-primitives",
  "polkadot-collator",
  "polkadot-primitives",
  "polkadot-service",
@@ -1209,9 +1175,9 @@ dependencies = [
 [[package]]
 name = "cumulus-token-dealer"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=master#4e7f138c828bcf118df1c988a400d4dac8e904d9"
+source = "git+https://github.com/paritytech/cumulus?rev=4e7f138c828bcf118df1c988a400d4dac8e904d9#4e7f138c828bcf118df1c988a400d4dac8e904d9"
 dependencies = [
- "cumulus-primitives 0.1.0 (git+https://github.com/paritytech/cumulus)",
+ "cumulus-primitives",
  "cumulus-upward-message",
  "frame-support",
  "frame-system",
@@ -1222,7 +1188,7 @@ dependencies = [
 [[package]]
 name = "cumulus-upward-message"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=master#4e7f138c828bcf118df1c988a400d4dac8e904d9"
+source = "git+https://github.com/paritytech/cumulus?rev=4e7f138c828bcf118df1c988a400d4dac8e904d9#4e7f138c828bcf118df1c988a400d4dac8e904d9"
 dependencies = [
  "kusama-runtime",
  "polkadot-core-primitives",
@@ -2768,7 +2734,7 @@ dependencies = [
  "cumulus-collator",
  "cumulus-consensus",
  "cumulus-network",
- "cumulus-primitives 0.1.0 (git+https://github.com/paritytech/cumulus?rev=2381e5a)",
+ "cumulus-primitives",
  "cumulus-service",
  "derive_more 0.15.0",
  "exit-future 0.1.4",
@@ -2831,8 +2797,8 @@ dependencies = [
  "ctype",
  "cumulus-message-broker",
  "cumulus-parachain-upgrade",
- "cumulus-primitives 0.1.0 (git+https://github.com/paritytech/cumulus)",
- "cumulus-runtime 0.1.0 (git+https://github.com/paritytech/cumulus)",
+ "cumulus-primitives",
+ "cumulus-runtime",
  "cumulus-token-dealer",
  "cumulus-upward-message",
  "delegation",
@@ -4415,9 +4381,9 @@ dependencies = [
 [[package]]
 name = "parachain-info"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=master#4e7f138c828bcf118df1c988a400d4dac8e904d9"
+source = "git+https://github.com/paritytech/cumulus?rev=4e7f138c828bcf118df1c988a400d4dac8e904d9#4e7f138c828bcf118df1c988a400d4dac8e904d9"
 dependencies = [
- "cumulus-primitives 0.1.0 (git+https://github.com/paritytech/cumulus)",
+ "cumulus-primitives",
  "frame-support",
  "frame-system",
  "parity-scale-codec",
