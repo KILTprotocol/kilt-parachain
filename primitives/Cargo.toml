@@ -1,0 +1,17 @@
+[package]
+authors = ['KILT <info@kilt.io>']
+edition = '2018'
+name = 'kilt-parachain-primitives'
+version = '0.23.0'
+
+[dependencies]
+# Substrate dependencies
+sp-runtime = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
+sp-core = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
+
+[features]
+default = [ "std" ]
+std = [
+	"sp-runtime/std",
+	"sp-core/std"
+]

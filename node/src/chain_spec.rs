@@ -19,8 +19,9 @@
 //! KILT chain specification
 
 use cumulus_primitives::ParaId;
-use kilt_collator_runtime::{
-	AccountId, BalancesConfig, GenesisConfig, ParachainInfoConfig, Signature, SudoConfig,
+use kilt_parachain_primitives::{AccountId, Signature};
+use kilt_parachain_runtime::{
+	BalancesConfig, GenesisConfig, ParachainInfoConfig, SudoConfig,
 	SystemConfig, WASM_BINARY,
 };
 use sc_chain_spec::{ChainSpecExtension, ChainSpecGroup};
@@ -29,7 +30,7 @@ use serde::{Deserialize, Serialize};
 use sp_core::{sr25519, Pair, Public};
 use sp_runtime::traits::{IdentifyAccount, Verify};
 
-/// Specialized `ChainSpec`. This is a specialization of the general Substrate ChainSpec type.
+/// Specialized `ChainSpec` for the normal parachain runtime.
 pub type ChainSpec = sc_service::GenericChainSpec<GenesisConfig, Extensions>;
 
 /// Helper function to generate a crypto pair from seed
@@ -73,7 +74,7 @@ pub fn get_chain_spec(id: ParaId) -> Result<ChainSpec, String> {
 	let wasm = WASM_BINARY.ok_or("No WASM")?;
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Local Testnet",
-		"kilt_collator_local_testnet",
+		"kilt_parachain_local_testnet",
 		ChainType::Local,
 		move || {
 			testnet_genesis(
@@ -114,7 +115,7 @@ pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
 	let wasm = WASM_BINARY.ok_or("No WASM")?;
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Staging Testnet",
-		"kilt_collator_staging_testnet",
+		"kilt_parachain_staging_testnet",
 		ChainType::Live,
 		move || {
 			testnet_genesis(
