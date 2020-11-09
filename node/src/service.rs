@@ -24,9 +24,9 @@ use cumulus_network::build_block_announce_validator;
 use cumulus_service::{
 	prepare_node_config, start_collator, start_full_node, StartCollatorParams, StartFullNodeParams,
 };
+use kilt_parachain_primitives::Block;
 use kilt_parachain_runtime::RuntimeApi;
 use polkadot_primitives::v0::CollatorPair;
-use kilt_parachain_primitives::Block;
 use sc_executor::native_executor_instance;
 pub use sc_executor::NativeExecutor;
 use sc_service::{Configuration, PartialComponents, Role, TFullBackend, TFullClient, TaskManager};

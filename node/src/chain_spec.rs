@@ -21,8 +21,7 @@
 use cumulus_primitives::ParaId;
 use kilt_parachain_primitives::{AccountId, Signature};
 use kilt_parachain_runtime::{
-	BalancesConfig, GenesisConfig, ParachainInfoConfig, SudoConfig,
-	SystemConfig, WASM_BINARY,
+	BalancesConfig, GenesisConfig, ParachainInfoConfig, SudoConfig, SystemConfig, WASM_BINARY,
 };
 use sc_chain_spec::{ChainSpecExtension, ChainSpecGroup};
 use sc_service::{ChainType, Properties};
