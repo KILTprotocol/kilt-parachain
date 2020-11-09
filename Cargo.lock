@@ -355,6 +355,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "065374052e7df7ee4047b1160cca5e1467a12351a40b3da123c870ba0b8eda2a"
 
 [[package]]
+name = "attestation"
+version = "0.23.0"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c20d41c6655cc638b8d8ed711fe5175a0083e485"
+dependencies = [
+ "ctype",
+ "delegation",
+ "error",
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "substrate-wasm-builder-runner 1.0.6",
+]
+
+[[package]]
 name = "atty"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1049,6 +1066,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "ctype"
+version = "0.23.0"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c20d41c6655cc638b8d8ed711fe5175a0083e485"
+dependencies = [
+ "error",
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "substrate-wasm-builder-runner 1.0.6",
+]
+
+[[package]]
 name = "cuckoofilter"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1250,6 +1282,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d4d0e2d24e5ee3b23a01de38eefdcd978907890701f08ffffd4cb457ca4ee8d6"
 
 [[package]]
+name = "delegation"
+version = "0.23.0"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c20d41c6655cc638b8d8ed711fe5175a0083e485"
+dependencies = [
+ "bitflags",
+ "ctype",
+ "error",
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "substrate-wasm-builder-runner 1.0.6",
+]
+
+[[package]]
 name = "derive_more"
 version = "0.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1272,6 +1321,18 @@ dependencies = [
  "proc-macro2 1.0.24",
  "quote 1.0.7",
  "syn 1.0.48",
+]
+
+[[package]]
+name = "did"
+version = "0.23.0"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c20d41c6655cc638b8d8ed711fe5175a0083e485"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "sp-runtime",
+ "sp-std",
 ]
 
 [[package]]
@@ -1467,6 +1528,19 @@ checksum = "14ca354e36190500e1e1fb267c647932382b54053c50b14970856c0b00a35067"
 dependencies = [
  "gcc",
  "libc",
+]
+
+[[package]]
+name = "error"
+version = "0.23.0"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c20d41c6655cc638b8d8ed711fe5175a0083e485"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "sp-arithmetic",
+ "sp-io",
+ "sp-runtime",
 ]
 
 [[package]]
@@ -2805,10 +2879,15 @@ dependencies = [
 name = "kilt-parachain-runtime"
 version = "0.23.0"
 dependencies = [
+ "attestation",
  "bitflags",
+ "ctype",
  "cumulus-parachain-upgrade",
  "cumulus-primitives",
  "cumulus-runtime",
+ "delegation",
+ "did",
+ "error",
  "frame-executive",
  "frame-support",
  "frame-system",
@@ -2820,8 +2899,9 @@ dependencies = [
  "pallet-sudo",
  "pallet-timestamp",
  "pallet-transaction-payment",
- "parachain-info 0.1.0 (git+https://github.com/paritytech/cumulus)",
+ "parachain-info",
  "parity-scale-codec",
+ "portablegabi",
  "serde",
  "sp-api",
  "sp-arithmetic",
@@ -4517,17 +4597,6 @@ dependencies = [
 [[package]]
 name = "parachain-info"
 version = "0.1.0"
-dependencies = [
- "cumulus-primitives",
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "serde",
-]
-
-[[package]]
-name = "parachain-info"
-version = "0.1.0"
 source = "git+https://github.com/paritytech/cumulus?branch=master#182109ef5fdc93d2c4496372d9ec5f53090b4615"
 dependencies = [
  "cumulus-primitives",
@@ -5817,6 +5886,22 @@ checksum = "d9a50142b55ab3ed0e9f68dfb3709f1d90d29da24e91033f28b96330643107dc"
 dependencies = [
  "cfg-if 0.1.10",
  "universal-hash",
+]
+
+[[package]]
+name = "portablegabi"
+version = "0.23.0"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c20d41c6655cc638b8d8ed711fe5175a0083e485"
+dependencies = [
+ "error",
+ "frame-support",
+ "frame-system",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
 ]
 
 [[package]]
@@ -8821,6 +8906,12 @@ dependencies = [
  "substrate-test-client",
  "substrate-test-runtime",
 ]
+
+[[package]]
+name = "substrate-wasm-builder-runner"
+version = "1.0.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d2a965994514ab35d3893e9260245f2947fd1981cdd4fffd2c6e6d1a9ce02e6a"
 
 [[package]]
 name = "substrate-wasm-builder-runner"

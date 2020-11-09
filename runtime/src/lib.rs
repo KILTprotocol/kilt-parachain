@@ -30,7 +30,7 @@ use sp_api::impl_runtime_apis;
 use sp_core::OpaqueMetadata;
 use sp_runtime::{
 	create_runtime_str, generic, impl_opaque_keys,
-	traits::{BlakeTwo256, Block as BlockT, IdentityLookup, Saturating},
+	traits::{BlakeTwo256, Block as BlockT, IdentityLookup, Saturating, Verify},
 	transaction_validity::{TransactionSource, TransactionValidity},
 	ApplyExtrinsicResult,
 };
@@ -52,13 +52,12 @@ pub use pallet_timestamp::Call as TimestampCall;
 pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Permill};
 
-// TODO: Reactiva te
-// pub use attestation;
-// pub use ctype;
-// pub use delegation;
-// pub use did;
-// pub use error;
-// pub use portablegabi;
+pub use attestation;
+pub use ctype;
+pub use delegation;
+pub use did;
+pub use error;
+pub use portablegabi;
 
 pub type SessionHandlers = ();
 
@@ -222,45 +221,44 @@ impl cumulus_parachain_upgrade::Trait for Runtime {
 
 impl parachain_info::Trait for Runtime {}
 
-// impl attestation::Trait for Runtime {
-// 	/// The ubiquitous event type.
-// 	type Event = Event;
-// }
+impl attestation::Trait for Runtime {
+	/// The ubiquitous event type.
+	type Event = Event;
+}
 
-// impl ctype::Trait for Runtime {
-// 	/// The ubiquitous event type.
-// 	type Event = Event;
-// }
+impl ctype::Trait for Runtime {
+	/// The ubiquitous event type.
+	type Event = Event;
+}
 
-// impl delegation::Trait for Runtime {
-// 	/// The ubiquitous event type.
-// 	type Event = Event;
-// 	type Signature = Signature;
-// 	type Signer = <Signature as Verify>::Signer;
-// 	type DelegationNodeId = Hash;
-// }
+impl delegation::Trait for Runtime {
+	/// The ubiquitous event type.
+	type Event = Event;
+	type Signature = Signature;
+	type Signer = <Signature as Verify>::Signer;
+	type DelegationNodeId = Hash;
+}
 
-// impl did::Trait for Runtime {
-// 	/// The ubiquitous event type.
-// 	type Event = Event;
-// 	/// Type for the public signing key in DIDs
-// 	type PublicSigningKey = Hash;
-// 	/// Type for the public boxing key in DIDs
-// 	type PublicBoxKey = Hash;
-// }
+impl did::Trait for Runtime {
+	/// The ubiquitous event type.
+	type Event = Event;
+	/// Type for the public signing key in DIDs
+	type PublicSigningKey = Hash;
+	/// Type for the public boxing key in DIDs
+	type PublicBoxKey = Hash;
+}
 
-// impl portablegabi::Trait for Runtime {
-// 	/// The ubiquitous event type.
-// 	type Event = Event;
-// }
+impl portablegabi::Trait for Runtime {
+	/// The ubiquitous event type.
+	type Event = Event;
+}
 
-// TODO: Reactivate
-// impl error::Trait for Runtime {
-// 	/// Error code type
-// 	type ErrorCode = u16;
-// 	/// The ubiquitous event type.
-// 	type Event = Event;
-// }
+impl error::Trait for Runtime {
+	/// Error code type
+	type ErrorCode = u16;
+	/// The ubiquitous event type.
+	type Event = Event;
+}
 
 construct_runtime! {
 	pub enum Runtime where
@@ -277,13 +275,12 @@ construct_runtime! {
 		TransactionPayment: pallet_transaction_payment::{Module, Storage},
 		ParachainInfo: parachain_info::{Module, Storage, Config},
 		Indices: pallet_indices::{Module, Call, Storage, Event<T>},
-		// TODO: Reactivate
-		// Ctype: ctype::{Module, Call, Storage, Event<T>},
-		// Attestation: attestation::{Module, Call, Storage, Event<T>},
-		// Delegation: delegation::{Module, Call, Storage, Event<T>},
-		// Did: did::{Module, Call, Storage, Event<T>},
-		// Portablegabi: portablegabi::{Module, Call, Storage, Event<T>},
-		// Error: error::{ Module, Call, Event<T>},
+		Ctype: ctype::{Module, Call, Storage, Event<T>},
+		Attestation: attestation::{Module, Call, Storage, Event<T>},
+		Delegation: delegation::{Module, Call, Storage, Event<T>},
+		Did: did::{Module, Call, Storage, Event<T>},
+		Portablegabi: portablegabi::{Module, Call, Storage, Event<T>},
+		Error: error::{ Module, Call, Event<T>},
 	}
 }
 

@@ -15,15 +15,16 @@ pallet-indices = {git = 'https://github.com/paritytech/substrate', default-featu
 sp-arithmetic = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
 sp-io = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
 
+# KILT collator
 kilt-parachain-primitives = { path = '../primitives',  default-features = false }
 
-
-# attestation = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
-# ctype = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
-# delegation = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
-# did = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
-# error = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
-# portablegabi = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
+# KILT pallets
+attestation = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
+ctype = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
+delegation = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
+did = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
+error = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
+portablegabi = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
 
 # Substrate dependencies
 sp-std = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
@@ -61,12 +62,12 @@ std = [
 	'pallet-indices/std',
 	'frame-system-rpc-runtime-api/std',
 	'sp-io/std',
-	# 'attestation/std',
-	# 'ctype/std',
-	# 'did/std',
-	# 'error/std',
-	# 'delegation/std',
-	# 'portablegabi/std',
+	'attestation/std',
+	'ctype/std',
+	'did/std',
+	'error/std',
+	'delegation/std',
+	'portablegabi/std',
 	'codec/std',
 	'serde',
 	'sp-api/std',
