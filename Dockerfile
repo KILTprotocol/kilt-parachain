@@ -1,21 +1,25 @@
-# this container builds the kilt-collator binary from source files and the runtime library
+# this container builds the kilt-parachain binary from source files and the runtime library
 # pinned the version to avoid build cache invalidation
-FROM paritytech/ci-linux@sha256:7745e0c755153465fa58f4bf1117df1eb9351f445411083b4b1fb2434852f938 as builder
+FROM paritytech/ci-linux:5297d82c-20201107 as builder
 
 WORKDIR /build
 
 # to avoid early cache invalidation, we build only dependencies first. For this we create fresh crates we are going to overwrite.
-RUN USER=root cargo init --bin --name=kilt-collator
-RUN USER=root cargo new --lib --name=kilt-collator-runtime runtime
+RUN USER=root cargo init --bin --name=kilt-parachain node
+RUN USER=root cargo new --lib --name=kilt-parachain-runtime runtime
+RUN USER=root cargo new --lib --name=kilt-parachain-primitives primitives
 # overwrite cargo.toml with real files
-COPY Cargo.toml Cargo.lock build.rs ./
+COPY Cargo.toml Cargo.lock ./
+COPY ./node/build.rs ./node/Cargo.toml ./node/
 COPY ./runtime/Cargo.toml ./runtime/
+COPY ./primitives/Cargo.toml ./primitives/
 
 # build depedencies (and bogus source files)
 RUN cargo build --release
 
 # remove bogus build (but keep depedencies)
-RUN cargo clean --release -p kilt-collator-runtime
+RUN cargo clean --release -p kilt-parachain-runtime
+RUN cargo clean --release -p kilt-parachain-primitives
 
 # copy everything over (cache invalidation will happen here)
 COPY . /build
@@ -23,8 +27,7 @@ COPY . /build
 RUN cargo build --release
 
 # test
-RUN cargo test --release -p kilt-collator-runtime
-
+RUN cargo test --release
 
 FROM debian:stretch
 
@@ -42,9 +45,9 @@ RUN apt-get clean -y
 RUN rm -rf /tmp/* /var/tmp/*
 
 RUN mkdir -p /runtime/target/release/
-COPY --from=builder /build/target/release/kilt-collator ./target/release/kilt-collator
-COPY --from=builder /build/start-node.sh ./start-node.sh
-COPY --from=builder /build/chainspec.json ./chainspec.json
+COPY --from=builder /build/target/release/kilt-parachain ./target/release/kilt-parachain
+COPY --from=builder /build/start-local-node.sh ./start-local-node.sh
+COPY --from=builder /build/rococo-local-v1-raw_2-validators.json ./rococo-local-v1-raw_2-validators.json
 
 RUN chmod a+x *.sh
 RUN ls -la .
