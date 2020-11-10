@@ -71,7 +71,7 @@ cargo build --release --features=real-overseer
 
 ```bash
 cargo run --features=real-overseer --release -- \
-  --chain rococo_local.json \
+  --chain rococo-local-v1_2-validators.json \
   --tmp \
   --ws-port 9944 \
   --port 30333 \
@@ -82,7 +82,7 @@ cargo run --features=real-overseer --release -- \
 
 ```bash
 cargo run --features=real-overseer --release -- \
-  --chain rococo_local.json \
+  --chain rococo-local-v1_2-validators.json \
   --tmp \
   --ws-port 9955 \
   --port 30334 \
@@ -111,7 +111,7 @@ This assumes your KILT collator repo is a sibling of your Polkadot repo used for
   --parachain-id 200 \
   --validator \
   -- \
-  --chain ../polkadot/rococo_local.json \
+  --chain ../polkadot/rococo-local-v1_2-validators.json \
 ```
 
 #### 1.4.3. Obtain Genesis Head
@@ -119,7 +119,7 @@ This assumes your KILT collator repo is a sibling of your Polkadot repo used for
 Copy from your logs or use 
 
 ```
-./target/release/kilt-parachain export-genesis-state --parachain-id 300 > para-300-genesis
+./target/release/kilt-parachain export-genesis-state --parachain-id 200 > para-200-genesis
 ```
 
 ```
@@ -127,6 +127,8 @@ Copy from your logs or use
 ```
 
 #### 1.4.4. Register parachain in Apps
+
+Please note that blocks will be finalized after collating the 6th block.
 
 1. Head to [Polkadot Apps](https://polkadot.js.org/apps/#/?rpc=ws://localhost:9944) and connect to the default local WS address.
 2. `Sudo` > `parasSudoWrapper` > `sudoScheduleParaInitialize(id, genesis)`
@@ -148,8 +150,6 @@ Copy from your logs or use
 2020-11-10 14:13:13  💤 Idle (0 peers), best: #85 (0x03ea…fed6), finalized #84 (0x1e5c…250a), ⬇ 0.7kiB/s ⬆ 0.7kiB/s
 2020-11-10 14:13:18  ✨ Imported #303 (0x81a9…d19d)
 ```
-
-Please note that blocks will be finalized after collating the 6th block.
 
 ### 1.5 Troubleshoot
 
