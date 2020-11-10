@@ -1,15 +1,15 @@
 ![](https://user-images.githubusercontent.com/1248214/57789522-600fcc00-7739-11e9-86d9-73d7032f40fc.png)
 
-<!-- [![Build and Test](https://github.com/KILTprotocol/kilt-collator/workflows/Build%20and%20Test/badge.svg)](https://github.com/KILTprotocol/kilt-collator/actions) -->
+<!-- [![Build and Test](https://github.com/KILTprotocol/kilt-parachain/workflows/Build%20and%20Test/badge.svg)](https://github.com/KILTprotocol/kilt-parachain/actions) -->
 
-# KILT kilt-collator <!-- omit in toc -->
+# KILT Parachain <!-- omit in toc -->
 
 The KILT parachain collators use Parity Substrate as the underlying blockchain
 technology stack extended with our DID, CType, Attestation and hierarchical Trust Modules.
 
-- [1. How to use](#1-how-to-use)
-  - [1.1. How to use TL;DR](#11-how-to-use-tldr)
-  - [1.2. How to use longer](#12-how-to-use-longer)
+- [1. How to use/test locally](#1-how-to-usetest-locally)
+  - [1.1 Supported Polkadot dependencies](#11-supported-polkadot-dependencies)
+  - [1.2. How to use](#12-how-to-use)
   - [1.3. Relay Chain: Polkadot](#13-relay-chain-polkadot)
     - [1.3.1. Start Alice's Node](#131-start-alices-node)
     - [1.3.2. Start Bob's Node](#132-start-bobs-node)
@@ -18,6 +18,7 @@ technology stack extended with our DID, CType, Attestation and hierarchical Trus
     - [1.4.2. Start Collator Node](#142-start-collator-node)
     - [1.4.3. Obtain Genesis Head](#143-obtain-genesis-head)
     - [1.4.4. Register parachain in Apps](#144-register-parachain-in-apps)
+  - [1.5 Troubleshoot](#15-troubleshoot)
 - [2. Node Modules functionalities](#2-node-modules-functionalities)
   - [2.1. DID Module](#21-did-module)
     - [2.1.1. Add](#211-add)
@@ -38,35 +39,38 @@ technology stack extended with our DID, CType, Attestation and hierarchical Trus
 -   [JSON-RPC](https://polkadot.js.org/api/substrate/rpc.html)
 -   [Substrate Reference Rust Docs](https://substrate.dev/rustdocs)
 
-## 1. How to use
+## 1. How to use/test locally
 
-### 1.1. How to use TL;DR
+### 1.1 Supported Polkadot dependencies
 
-TODO
+It should at least work until the following commits
 
-### 1.2. How to use longer
+-   Polkadot master (newer than 2.0.0) @ `abc8c09aa18ee69a53c7910240e9cf8fac8cf6e1`
+-   Cumulus master (Rococo v1) @ `3ef4b34a75739a26bddb89cc4b2751d288812f61`
+-   Substrate master (newer than 2.0.0) @ `bf78c1655b7e49503a11cb070235089ea1e2455e`
+
+### 1.2. How to use
 
 1. Spin up Polkadot validators (number of parachains + 1)
 2. Spin up Collator(s)
 
-I recommend checking out the [cumulus-workshop](https://substrate.dev/cumulus-workshop/#/3-parachains/1-launch) and following most of the steps described there, mainly 3. All following code is basically copied from there to have a one page overview for all required code. Please check out the workshop for explanations. The workshop targets
-
--   Polkadot @ `29e799da335b8a2fb621a724185dd1de13824ee5`
--   Substrate Parachain Template @ `a67bbb8b6de7557c46794cfa8ccc5e74f09be75c`
--   Polkadot JS Apps @ `e5113ecfd03e7e706a1f2c08b3b661e0e75f9e6e`
+I recommend checking out the [cumulus-workshop](https://substrate.dev/cumulus-workshop/#/3-parachains/1-launch) and following most of the steps described there, mainly 3.
+All following code is basically copied from there to have a one-page-overview for all required code.
+Please check out the workshop for explanations.
 
 ### 1.3. Relay Chain: Polkadot
 
-You need to run 2 validators in the relay chain, e.g. `#parachains + 1`. See [here](https://substrate.dev/cumulus-workshop/#/2-relay-chain/2-launch). It should at least work until commit
+You need to run 2 validators in the relay chain, e.g. `#parachains + 1`.
+See [here](https://substrate.dev/cumulus-workshop/#/2-relay-chain/2-launch).
 
 ```bash
-cargo build --release
+cargo build --release --features=real-overseer
 ```
 
 #### 1.3.1. Start Alice's Node
 
 ```bash
-target/release/polkadot \
+cargo run --features=real-overseer --release -- \
   --chain rococo_local.json \
   --tmp \
   --ws-port 9944 \
@@ -77,7 +81,7 @@ target/release/polkadot \
 #### 1.3.2. Start Bob's Node
 
 ```bash
-target/release/polkadot \
+cargo run --features=real-overseer --release -- \
   --chain rococo_local.json \
   --tmp \
   --ws-port 9955 \
@@ -92,7 +96,7 @@ Follow the instructions of [section 3](https://substrate.dev/cumulus-workshop/#/
 #### 1.4.1. Obtain WASM Validation Function
 
 ```
-target/release/kilt-collator export-genesis-wasm > para-200-wasm
+target/release/kilt-parachain export-genesis-wasm > para-200-wasm
 ```
 
 #### 1.4.2. Start Collator Node
@@ -100,7 +104,7 @@ target/release/kilt-collator export-genesis-wasm > para-200-wasm
 This assumes your KILT collator repo is a sibling of your Polkadot repo used for the relay chain validators due to using the same precompiled local rococo chainspec.
 
 ```
-target/release/kilt-collator \
+./target/release/kilt-parachain\
   --tmp \
   --ws-port 9977 \
   --port 30336 \
@@ -115,30 +119,59 @@ target/release/kilt-collator \
 Copy from your logs or use 
 
 ```
-2020-08-19 16:46:15 Parachain genesis state: 0x00000000000000000000000000000000000000000000000000000000000000000081f8f537ea138d3340db11484e3d862c9f1faf6742c019cb58fea3f087a5b48c03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c11131400
+./target/release/kilt-parachain export-genesis-state --parachain-id 300 > para-300-genesis
 ```
 
-**Or:** Actually, there is a command for generating the genesis but I had trouble using the produced head when registering a parachain-id other than 200.
-Therefore, I went with the above.
 ```
-./target/release/kilt-collator export-genesis-state --parachain-id 300 > para-300-genesis
+2020-08-19 16:46:15 Parachain genesis state: 0x00000000000000000000000000000000000000000000000000000000000000000081f8f537ea138d3340db11484e3d862c9f1faf6742c019cb58fea3f087a5b48c03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c11131400
 ```
 
 #### 1.4.4. Register parachain in Apps
 
 1. Head to [Polkadot Apps](https://polkadot.js.org/apps/#/?rpc=ws://localhost:9944) and connect to the default local WS address.
-2. Sudo > Registrar > registerPara
+2. `Sudo` > `parasSudoWrapper` > `sudoScheduleParaInitialize(id, genesis)`
     1. `id: 200`
-    2. `info: ParaInfo` should be `Always`
-    3. `code`: Add `para-200-wasm` file located in the root of your cumulus dir
-    4. `initial_head_data`: Add from step 1.4.3
+    2. `genesisHead`: Add genesis state from step 1.43
+    3. `validationCode`: Add wasm blob from step 1.42
 3. Collator should start producing parachain blocks (aka collating) once the registration is successful. The collator should start producing log messages like the following:
 
 ```
-2020-06-23 07:28:24 Starting parachain attestation session on top of parent 0xd94fe34cd9708145308d7a2c1f1c0f1105997c5307258970249fd66e27d571bc. Local parachain duty is None
-2020-06-23 07:28:24 🙌 Starting consensus session on top of parent 0x74be3a0a708a44fe5f2e16e1829ff3254d6870580297627c54af99a3ecdcfddf
-2020-06-23 07:28:24 🎁 Prepared block for proposing at 1 [hash: 0x8ffba7e6194a3a960f9b4b7d0ce1d419d655f5f258f609eb910ddccb78b3d45c; parent_hash: 0x74be…fddf; extrinsics (3): [0xfe5c…5be2, 0x6d07…cb5a, 0x2259…cec2]]
-2020-06-23 07:28:24 ✨ [Parachain] Imported #1 (0x8ffb…d45c)
+2020-11-10 14:13:12  👶 New epoch 63 launching at block 0xa556…9ea5 (block slot 267502332 >= start slot 267502332).
+2020-11-10 14:13:12  👶 Next epoch starts at slot 267502337
+2020-11-10 14:13:12  ✨ Imported #302 (0xa556…9ea5)
+2020-11-10 14:13:12  Starting collation for relay parent `0xa556…9ea5` on parent `0x03ea…fed6`.
+2020-11-10 14:13:12  🙌 Starting consensus session on top of parent 0x03eab53d14b80eab8f6b63e657f54eada7fc52e1ac0032242f41571f9460fed6
+2020-11-10 14:13:12  🎁 Prepared block for proposing at 86 [hash: 0xcddeaed47a0ea91d55c2f06190043e71a178ae18f1592619e19a636d180ca071; parent_hash: 0x03ea…fed6; extrinsics (2): [0xee21…4f07, 0xa25d…6c04]]
+2020-11-10 14:13:12  Produced proof-of-validity candidate `0x828d55cc65d184753c4c14f190b32598af845fddd147f008e859385ff3b1a306` from block `0xcddeaed47a0ea91d55c2f06190043e71a178ae18f1592619e19a636d180ca071`.
+2020-11-10 14:13:12  ✨ Imported #86 (0xcdde…a071)
+2020-11-10 14:13:13  💤 Idle (3 peers), best: #302 (0xa556…9ea5), finalized #299 (0x150d…411e), ⬇ 2.2kiB/s ⬆ 4.6kiB/s
+2020-11-10 14:13:13  💤 Idle (0 peers), best: #85 (0x03ea…fed6), finalized #84 (0x1e5c…250a), ⬇ 0.7kiB/s ⬆ 0.7kiB/s
+2020-11-10 14:13:18  ✨ Imported #303 (0x81a9…d19d)
+```
+
+Please note that blocks will be finalized after collating the 6th block.
+
+### 1.5 Troubleshoot
+
+In case the apps complain about missing types when registering the parachain via a Polkadot validator, try to add the following:
+```
+{
+  "Id": "u32",
+  "HrmpChannelId": {
+    "sender": "Id",
+    "recipient": "Id"
+  },
+  "ValidatorIndex": "u32",
+  "Signed<AvailabilityBitfield>": {
+    "payload": "AvailabilityBitfield",
+    "validator_index": "ValidatorIndex",
+    "signature": "ValidatorSignature",
+    "real_payload": "PhantomData<AvailabilityBitfield>"
+  },
+  "AvailabilityBitfield": "BitVec<Lsb0, u8>",
+  "SignedAvailabilityBitfield": "Signed<AvailabilityBitfield>",
+  "SignedAvailabilityBitfields": "Vec<SignedAvailabilityBitfield>"
+}
 ```
 
 ## 2. Node Modules functionalities

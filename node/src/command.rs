@@ -74,7 +74,7 @@ impl SubstrateCli for Cli {
 	}
 
 	fn support_url() -> String {
-		"https://github.com/kiltprotocol/kilt-collator/issues/new".into()
+		"https://github.com/kiltprotocol/kilt-parachain/issues/new".into()
 	}
 
 	fn copyright_start_year() -> i32 {
@@ -103,7 +103,7 @@ impl SubstrateCli for RelayChainCli {
 		"KILT collator\n\nThe command-line arguments provided first will be \
 		passed to the parachain node, while the arguments provided after -- will be passed \
 		to the relaychain node.\n\n\
-		kilt-collator [parachain-args] -- [relaychain-args]"
+		kilt-parachain [parachain-args] -- [relaychain-args]"
 			.into()
 	}
 
@@ -112,7 +112,7 @@ impl SubstrateCli for RelayChainCli {
 	}
 
 	fn support_url() -> String {
-		"https://github.com/kiltprotocol/kilt-collator/issues/new".into()
+		"https://github.com/kiltprotocol/kilt-parachain/issues/new".into()
 	}
 
 	fn copyright_start_year() -> i32 {
