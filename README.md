@@ -55,6 +55,7 @@ It should at least work until the following commits
 2. Spin up Collator(s)
 
 I recommend checking out the [cumulus-workshop](https://substrate.dev/cumulus-workshop/#/3-parachains/1-launch) and following most of the steps described there, mainly 3.
+Unfortunately, some commands there are outdated the workshop has not been updated to the newest Rococo version.
 All following code is basically copied from there to have a one-page-overview for all required code.
 Please check out the workshop for explanations.
 
@@ -92,6 +93,11 @@ cargo run --features=real-overseer --release -- \
 ### 1.4. KILT Collator
 
 Follow the instructions of [section 3](https://substrate.dev/cumulus-workshop/#/3-parachains/1-launch).
+
+For the parachain, you do not need to compile with the `real-overseer` feature:
+```
+cargo build --release
+```
 
 #### 1.4.1. Obtain WASM Validation Function
 

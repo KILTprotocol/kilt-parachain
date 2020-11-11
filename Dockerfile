@@ -58,10 +58,8 @@ EXPOSE 30333 9933 9944
 #
 # Pass the node start command to the docker run command
 #
-# To start full node:
-# ./start-node --telemetry
+# To start a collator:
+# ./start-local-node
 #
-# To start a full node that connects to Alice:
-# ./start-node.sh --connect-to Alice -t
 #
 CMD ["echo","\"Please provide a startup command.\""]
