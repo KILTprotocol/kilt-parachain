@@ -47,9 +47,9 @@ technology stack extended with our DID, CType, Attestation and hierarchical Trus
 
 It should at least work until the following commits
 
--   Polkadot master (newer than 2.0.0) @ `abc8c09aa18ee69a53c7910240e9cf8fac8cf6e1`
--   Cumulus master (Rococo v1) @ `3ef4b34a75739a26bddb89cc4b2751d288812f61`
--   Substrate master (newer than 2.0.0) @ `bf78c1655b7e49503a11cb070235089ea1e2455e`
+-   Polkadot master (newer than 2.0.0) @ `b19f3e1ddc4864f0983fd0531a42550db57d98e9`
+-   Cumulus master (Rococo v1) @ `2662bcd3dda634bfafb9632da8fa1fe85a2d71d4`
+-   Substrate master (newer than 2.0.0) @ `02771e146f126a9759a62948ec8a2edd6ad47ee9`
 
 ### 1.2. How to use
 
@@ -188,7 +188,24 @@ In case the apps complain about missing types when registering the parachain via
     "real_payload": "PhantomData<AvailabilityBitfield>"
   },
   "AvailabilityBitfield": "BitVec<Lsb0, u8>",
-  "SignedAvailabilityBitfields": "Vec<SignedAvailabilityBitfield>"
+  "SignedAvailabilityBitfields": "Vec<SignedAvailabilityBitfield>",
+  "PersistedValidationData": {
+    "parent_head": "HeadData",
+    "block_number": "BlockNumber",
+    "hrmp_mqc_heads": "Vec<(Id, Hash)>",
+    "dmq_mqc_head": "Hash"
+  },
+  "TransientValidationData": {
+    "max_code_size": "u32",
+    "max_head_data_size": "u32",
+    "balance": "u32",
+    "code_upgrade_allowed": "Option<BlockNumber>",
+    "dmq_length": "u32"
+  },
+  "ValidationData": {
+    "persisted": "PersistedValidationData",
+    "transient": "TransientValidationData"
+  }
 }
 ```
 
