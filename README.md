@@ -168,15 +168,14 @@ In case the apps complain about missing types when registering the parachain via
     "recipient": "Id"
   },
   "ValidatorIndex": "u32",
-  "Signed<AvailabilityBitfield>": {
+  "SignedAvailabilityBitfield": {
     "payload": "AvailabilityBitfield",
     "validator_index": "ValidatorIndex",
     "signature": "ValidatorSignature",
     "real_payload": "PhantomData<AvailabilityBitfield>"
   },
   "AvailabilityBitfield": "BitVec<Lsb0, u8>",
-  "SignedAvailabilityBitfield": "Signed<AvailabilityBitfield>",
-  "SignedAvailabilityBitfields": "Vec<SignedAvailabilityBitfield>"
+  "SignedAvailabilityBitfields": "Vec<SignedAvailabilityBitfield>",
 }
 ```
 
