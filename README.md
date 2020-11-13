@@ -19,6 +19,8 @@ technology stack extended with our DID, CType, Attestation and hierarchical Trus
     - [1.4.3. Obtain Genesis Head](#143-obtain-genesis-head)
     - [1.4.4. Register parachain in Apps](#144-register-parachain-in-apps)
   - [1.5 Troubleshoot](#15-troubleshoot)
+    - [1.5.1 Parachain is stuck on #1](#151-parachain-is-stuck-on-1)
+    - [1.5.2 Polkadot Apps Extrinsics Error](#152-polkadot-apps-extrinsics-error)
 - [2. Node Modules functionalities](#2-node-modules-functionalities)
   - [2.1. DID Module](#21-did-module)
     - [2.1.1. Add](#211-add)
@@ -32,7 +34,7 @@ technology stack extended with our DID, CType, Attestation and hierarchical Trus
     - [2.4.1. Create root](#241-create-root)
     - [2.4.2. Add delegation](#242-add-delegation)
     - [2.4.3. Revoke](#243-revoke)
-
+  
 **Substrate Documentation**
 
 -   [Cumulus Parachain Workshop](https://substrate.dev/cumulus-workshop/#/)
@@ -55,8 +57,8 @@ It should at least work until the following commits
 2. Spin up Collator(s)
 
 I recommend checking out the [cumulus-workshop](https://substrate.dev/cumulus-workshop/#/3-parachains/1-launch) and following most of the steps described there, mainly 3.
-Unfortunately, some commands there are outdated the workshop has not been updated to the newest Rococo version.
-All following code is basically copied from there to have a one-page-overview for all required code.
+Unfortunately, some commands there are outdated as the workshop has not been updated to the newest Rococo version, yet.
+The following code is basically copied from there and updated to the new version to have a one-page-overview for all commands and steps.
 Please check out the workshop for explanations.
 
 ### 1.3. Relay Chain: Polkadot
@@ -102,7 +104,7 @@ cargo build --release
 #### 1.4.1. Obtain WASM Validation Function
 
 ```
-target/release/kilt-parachain export-genesis-wasm > para-200-wasm
+./target/release/kilt-parachain export-genesis-wasm > para-200-wasm
 ```
 
 #### 1.4.2. Start Collator Node
@@ -122,11 +124,13 @@ This assumes your KILT collator repo is a sibling of your Polkadot repo used for
 
 #### 1.4.3. Obtain Genesis Head
 
-Copy from your logs or use 
+Either use the following command 
 
 ```
 ./target/release/kilt-parachain export-genesis-state --parachain-id 200 > para-200-genesis
 ```
+
+Or copy from the logs when starting the parachain
 
 ```
 2020-08-19 16:46:15 Parachain genesis state: 0x00000000000000000000000000000000000000000000000000000000000000000081f8f537ea138d3340db11484e3d862c9f1faf6742c019cb58fea3f087a5b48c03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c11131400
@@ -139,9 +143,12 @@ Please note that blocks will be finalized after collating the 6th block.
 1. Head to [Polkadot Apps](https://polkadot.js.org/apps/#/?rpc=ws://localhost:9944) and connect to the default local WS address.
 2. `Sudo` > `parasSudoWrapper` > `sudoScheduleParaInitialize(id, genesis)`
     1. `id: 200`
-    2. `genesisHead`: Add genesis state from step 1.43
-    3. `validationCode`: Add wasm blob from step 1.42
-3. Collator should start producing parachain blocks (aka collating) once the registration is successful. The collator should start producing log messages like the following:
+    2. `genesisHead`: Add genesis state from step 1.4.3
+    3. `validationCode`: Add wasm blob from step 1.4.2
+3. Select `Yes` for `parachain: bool` 
+4. The Collator should start producing parachain blocks (aka collating) once the registration is successful. 
+Please note that this might take some time, up to 10 minutes due to authority discovery.
+The collator should start producing log messages like the following:
 
 ```
 2020-11-10 14:13:12  👶 New epoch 63 launching at block 0xa556…9ea5 (block slot 267502332 >= start slot 267502332).
@@ -159,6 +166,12 @@ Please note that blocks will be finalized after collating the 6th block.
 
 ### 1.5 Troubleshoot
 
+#### 1.5.1 Parachain is stuck on #1
+
+Try running all nodes with `--discover-local`. This should not be necessary but might resolve your issue.
+
+#### 1.5.2 Polkadot Apps Extrinsics Error
+
 In case the apps complain about missing types when registering the parachain via a Polkadot validator, try to add the following:
 ```
 {
@@ -175,7 +188,7 @@ In case the apps complain about missing types when registering the parachain via
     "real_payload": "PhantomData<AvailabilityBitfield>"
   },
   "AvailabilityBitfield": "BitVec<Lsb0, u8>",
-  "SignedAvailabilityBitfields": "Vec<SignedAvailabilityBitfield>",
+  "SignedAvailabilityBitfields": "Vec<SignedAvailabilityBitfield>"
 }
 ```
 
