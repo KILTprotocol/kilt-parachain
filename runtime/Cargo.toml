@@ -16,7 +16,7 @@ sp-arithmetic = {git = 'https://github.com/paritytech/substrate', default-featur
 sp-io = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
 
 # KILT collator
-kilt-parachain-primitives = { path = '../primitives',  default-features = false }
+kilt-parachain-primitives = { path = '../primitives', default-features = false }
 
 # KILT pallets
 attestation = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
@@ -48,13 +48,14 @@ pallet-sudo = { git = 'https://github.com/paritytech/substrate', default-feature
 pallet-transaction-payment = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
 
 # Cumulus dependencies
-cumulus-runtime = { git = 'https://github.com/paritytech/cumulus',  default-features = false, branch = 'master' }
-cumulus-parachain-upgrade = { git = 'https://github.com/paritytech/cumulus',  default-features = false, branch = 'master' }
-cumulus-primitives = { git = 'https://github.com/paritytech/cumulus',  default-features = false, branch = 'master' }
-parachain-info = { git = 'https://github.com/paritytech/cumulus',  default-features = false, branch = 'master' }
+cumulus-runtime = { git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master' }
+cumulus-parachain-upgrade = { git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master' }
+cumulus-primitives = { git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master' }
+parachain-info = { git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master' }
 
 [build-dependencies]
-wasm-builder-runner = {package = 'substrate-wasm-builder-runner', version = '2.0.0'}
+substrate-wasm-builder = '3.0.0'
+
 [features]
 default = ['std']
 std = [
