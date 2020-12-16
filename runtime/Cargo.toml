@@ -5,53 +5,53 @@ name = 'kilt-parachain-runtime'
 version = '0.1.0'
 
 [dependencies]
-serde = { version = '1.0.101', optional = true, features = ['derive'] }
-codec = { package = 'parity-scale-codec', version = '1.3.0', default-features = false, features = ['derive'] }
+codec = {package = 'parity-scale-codec', version = '1.3.0', default-features = false, features = ['derive']}
+serde = {version = '1.0.101', optional = true, features = ['derive']}
 
 # KILT dependencies
-bitflags = { version = '1.2.1', default-features = false }
+bitflags = {version = '1.2.1', default-features = false}
 frame-system-rpc-runtime-api = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
 pallet-indices = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
 sp-arithmetic = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
-sp-io = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
+sp-io = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
 
 # KILT collator
-kilt-parachain-primitives = { path = '../primitives', default-features = false }
+kilt-parachain-primitives = {path = '../primitives', default-features = false}
 
 # KILT pallets
-attestation = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
-ctype = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
-delegation = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
-did = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
-error = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
-portablegabi = { version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop' }
+attestation = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
+ctype = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
+delegation = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
+did = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
+error = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
+portablegabi = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
 
 # Substrate dependencies
-sp-std = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-sp-api = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-sp-version = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-sp-runtime = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-sp-core = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-sp-session = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-sp-offchain = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-sp-block-builder = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-sp-transaction-pool = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-sp-inherents = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
+sp-api = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+sp-block-builder = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+sp-core = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+sp-inherents = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+sp-offchain = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+sp-runtime = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+sp-session = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+sp-std = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+sp-transaction-pool = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+sp-version = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
 
-frame-support = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-frame-executive = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-frame-system = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-pallet-balances = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-pallet-randomness-collective-flip = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-pallet-timestamp = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-pallet-sudo = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
-pallet-transaction-payment = { git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master' }
+frame-executive = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+frame-support = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+frame-system = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+pallet-balances = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+pallet-randomness-collective-flip = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+pallet-sudo = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+pallet-timestamp = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
+pallet-transaction-payment = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
 
 # Cumulus dependencies
-cumulus-runtime = { git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master' }
-cumulus-parachain-upgrade = { git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master' }
-cumulus-primitives = { git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master' }
-parachain-info = { git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master' }
+cumulus-parachain-upgrade = {git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master'}
+cumulus-primitives = {git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master'}
+cumulus-runtime = {git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master'}
+parachain-info = {git = 'https://github.com/paritytech/cumulus', default-features = false, branch = 'master'}
 
 [build-dependencies]
 substrate-wasm-builder = '3.0.0'
