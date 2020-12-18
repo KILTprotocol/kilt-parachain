@@ -29,7 +29,7 @@ RUN cargo build --release
 # test
 RUN cargo test --release
 
-FROM debian:stretch
+FROM debian:stretch-slim
 
 WORKDIR /runtime
 
@@ -45,21 +45,12 @@ RUN apt-get clean -y
 RUN rm -rf /tmp/* /var/tmp/*
 
 RUN mkdir -p /runtime/target/release/
-COPY --from=builder /build/target/release/kilt-parachain ./target/release/kilt-parachain
-COPY --from=builder /build/start-local-node.sh ./start-local-node.sh
-COPY --from=builder /build/rococo-local-v1-raw_2-validators.json ./rococo-local-v1-raw_2-validators.json
+COPY --from=builder /build/target/release/kilt-parachain /usr/local/bin/kilt-parachain
 
-RUN chmod a+x *.sh
 RUN ls -la .
 
 # expose node ports
 EXPOSE 30333 9933 9944
 
-#
-# Pass the node start command to the docker run command
-#
-# To start a collator:
-# ./start-local-node
-#
-#
-CMD ["echo","\"Please provide a startup command.\""]
+ENTRYPOINT [ "/usr/local/bin/kilt-parachain" ]
+CMD ["--help"]
