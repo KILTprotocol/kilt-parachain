@@ -27,7 +27,7 @@ use log::info;
 use polkadot_parachain::primitives::AccountIdConversion;
 use sc_cli::{
 	ChainSpec, CliConfiguration, DefaultConfigurationValues, ImportParams, KeystoreParams,
-	NetworkParams, Result, RuntimeVersion, SharedParams, SubstrateCli,
+	NetworkParams, Result, RuntimeVersion, SharedParams, SubstrateCli, InitLoggerParams
 };
 use sc_service::{
 	config::{BasePath, PrometheusConfig},
@@ -210,7 +210,10 @@ pub fn run() -> Result<()> {
 			})
 		}
 		Some(Subcommand::ExportGenesisState(params)) => {
-			sc_cli::init_logger("", sc_tracing::TracingReceiver::Log, None, false)?;
+			sc_cli::init_logger(InitLoggerParams {
+				tracing_receiver: sc_tracing::TracingReceiver::Log,
+				..Default::default()
+			})?;
 
 			let block: Block = generate_genesis_block(&load_spec(
 				&params.chain.clone().unwrap_or_default(),
@@ -227,8 +230,11 @@ pub fn run() -> Result<()> {
 			Ok(())
 		}
 		Some(Subcommand::ExportGenesisWasm(params)) => {
-			sc_cli::init_logger("", sc_tracing::TracingReceiver::Log, None, false)?;
-
+			sc_cli::init_logger(InitLoggerParams {
+				tracing_receiver: sc_tracing::TracingReceiver::Log,
+				..Default::default()
+			})?;
+			
 			let wasm_file =
 				extract_genesis_wasm(&cli.load_spec(&params.chain.clone().unwrap_or_default())?)?;
 
