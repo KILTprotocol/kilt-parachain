@@ -353,7 +353,7 @@ checksum = "065374052e7df7ee4047b1160cca5e1467a12351a40b3da123c870ba0b8eda2a"
 [[package]]
 name = "attestation"
 version = "0.23.0"
-source = "git+https://github.com/kiltprotocol/mashnet-node?branch=aw-dependency-update#e48577d4c8229b5646675cde33282dacd427b4cc"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c46f9ea75192365165ce2c0e6e2519d48b9679f9"
 dependencies = [
  "ctype",
  "delegation",
@@ -1030,7 +1030,7 @@ dependencies = [
 [[package]]
 name = "ctype"
 version = "0.23.0"
-source = "git+https://github.com/kiltprotocol/mashnet-node?branch=aw-dependency-update#e48577d4c8229b5646675cde33282dacd427b4cc"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c46f9ea75192365165ce2c0e6e2519d48b9679f9"
 dependencies = [
  "error",
  "frame-support",
@@ -1254,7 +1254,7 @@ checksum = "993a608597367c6377b258c25d7120740f00ed23a2252b729b1932dd7866f908"
 [[package]]
 name = "delegation"
 version = "0.23.0"
-source = "git+https://github.com/kiltprotocol/mashnet-node?branch=aw-dependency-update#e48577d4c8229b5646675cde33282dacd427b4cc"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c46f9ea75192365165ce2c0e6e2519d48b9679f9"
 dependencies = [
  "bitflags",
  "ctype",
@@ -1296,7 +1296,7 @@ dependencies = [
 [[package]]
 name = "did"
 version = "0.23.0"
-source = "git+https://github.com/kiltprotocol/mashnet-node?branch=aw-dependency-update#e48577d4c8229b5646675cde33282dacd427b4cc"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c46f9ea75192365165ce2c0e6e2519d48b9679f9"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -1512,7 +1512,7 @@ dependencies = [
 [[package]]
 name = "error"
 version = "0.23.0"
-source = "git+https://github.com/kiltprotocol/mashnet-node?branch=aw-dependency-update#e48577d4c8229b5646675cde33282dacd427b4cc"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c46f9ea75192365165ce2c0e6e2519d48b9679f9"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -6024,7 +6024,7 @@ dependencies = [
 [[package]]
 name = "portablegabi"
 version = "0.23.0"
-source = "git+https://github.com/kiltprotocol/mashnet-node?branch=aw-dependency-update#e48577d4c8229b5646675cde33282dacd427b4cc"
+source = "git+https://github.com/kiltprotocol/mashnet-node?branch=develop#c46f9ea75192365165ce2c0e6e2519d48b9679f9"
 dependencies = [
  "error",
  "frame-support",

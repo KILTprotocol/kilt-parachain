@@ -19,12 +19,12 @@ sp-io = {git = 'https://github.com/paritytech/substrate', default-features = fal
 kilt-parachain-primitives = {path = '../primitives', default-features = false}
 
 # KILT pallets
-attestation = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
-ctype = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
-delegation = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
-did = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
-error = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
-portablegabi = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'aw-dependency-update'}
+attestation = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop'}
+ctype = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop'}
+delegation = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop'}
+did = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop'}
+error = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop'}
+portablegabi = {version = '0.23.0', default-features = false, git = 'https://github.com/kiltprotocol/mashnet-node', branch = 'develop'}
 
 # Substrate dependencies
 sp-api = {git = 'https://github.com/paritytech/substrate', default-features = false, branch = 'master'}
