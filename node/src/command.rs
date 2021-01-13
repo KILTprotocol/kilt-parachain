@@ -43,6 +43,7 @@ fn load_spec(
 ) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
 	match id {
 		"staging" => Ok(Box::new(chain_spec::staging_test_net(para_id)?)),
+		"rococo" => Ok(Box::new(chain_spec::rococo_test_net(para_id)?)),
 		"" => Ok(Box::new(chain_spec::get_chain_spec(para_id)?)),
 		path => Ok(Box::new(chain_spec::ChainSpec::from_json_file(
 			path.into(),
@@ -234,7 +235,7 @@ pub fn run() -> Result<()> {
 				tracing_receiver: sc_tracing::TracingReceiver::Log,
 				..Default::default()
 			})?;
-			
+
 			let wasm_file =
 				extract_genesis_wasm(&cli.load_spec(&params.chain.clone().unwrap_or_default())?)?;
 
