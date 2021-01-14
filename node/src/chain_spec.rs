@@ -79,8 +79,8 @@ pub fn get_properties(symbol: &str, decimals: u32, ss58format: u32) -> Propertie
 
 pub fn get_chain_spec(id: ParaId) -> Result<ChainSpec, String> {
 	let properties = get_properties("KILT", 18, 38);
-
 	let wasm = WASM_BINARY.ok_or("No WASM")?;
+
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Local Testnet",
 		"kilt_parachain_local_testnet",
@@ -119,8 +119,8 @@ pub fn get_chain_spec(id: ParaId) -> Result<ChainSpec, String> {
 
 pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
 	let properties = get_properties("KILT", 18, 38);
-
 	let wasm = WASM_BINARY.ok_or("No WASM")?;
+
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Staging Testnet",
 		"kilt_parachain_staging_testnet",
@@ -128,8 +128,10 @@ pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
 		move || {
 			testnet_genesis(
 				wasm,
-				get_account_id_from_seed::<sr25519::Public>("Alice"),
-				vec![get_account_id_from_seed::<sr25519::Public>("Alice")],
+				hex!["d206033ba2eadf615c510f2c11f32d931b27442e5cfb64884afa2241dfa66e70"].into(),
+				vec![
+					hex!["b67fe6413ffe5cf91ae38a6475c37deea70a25c6c86b3dd17bb82d09efd9b350"].into(),
+				],
 				id,
 			)
 		},
@@ -144,10 +146,10 @@ pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
 	))
 }
 
-pub fn rococo_test_net(id: ParaId) -> Result<ChainSpec, String> {
+pub fn rococo_net(id: ParaId) -> Result<ChainSpec, String> {
 	let properties = get_properties("KILT", 18, 38);
-
 	let wasm = WASM_BINARY.ok_or("No WASM")?;
+
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Rococo",
 		"kilt_parachain_rococo",
@@ -157,7 +159,7 @@ pub fn rococo_test_net(id: ParaId) -> Result<ChainSpec, String> {
 				wasm,
 				hex!["da878f0b4cb36a3024015d47b9b3cc3be1573d8a744922e4ed9ab2665f469306"].into(),
 				vec![
-					hex!["f022c0f9c929bec1a5069d8806feab127f2fc4fc31d3a5d8db56d00aeec0ff3c"].into()
+					hex!["f022c0f9c929bec1a5069d8806feab127f2fc4fc31d3a5d8db56d00aeec0ff3c"].into(),
 				],
 				id,
 			)
@@ -167,7 +169,7 @@ pub fn rococo_test_net(id: ParaId) -> Result<ChainSpec, String> {
 		None,
 		Some(properties),
 		Extensions {
-			relay_chain: "rococo".into(),
+			relay_chain: "rococo_v1".into(),
 			para_id: id.into(),
 		},
 	))
