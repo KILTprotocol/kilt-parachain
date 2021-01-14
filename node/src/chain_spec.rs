@@ -130,6 +130,7 @@ pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
 				wasm,
 				hex!["d206033ba2eadf615c510f2c11f32d931b27442e5cfb64884afa2241dfa66e70"].into(),
 				vec![
+					hex!["d206033ba2eadf615c510f2c11f32d931b27442e5cfb64884afa2241dfa66e70"].into(),
 					hex!["b67fe6413ffe5cf91ae38a6475c37deea70a25c6c86b3dd17bb82d09efd9b350"].into(),
 				],
 				id,
@@ -159,6 +160,7 @@ pub fn rococo_net(id: ParaId) -> Result<ChainSpec, String> {
 				wasm,
 				hex!["da878f0b4cb36a3024015d47b9b3cc3be1573d8a744922e4ed9ab2665f469306"].into(),
 				vec![
+					hex!["da878f0b4cb36a3024015d47b9b3cc3be1573d8a744922e4ed9ab2665f469306"].into(),
 					hex!["f022c0f9c929bec1a5069d8806feab127f2fc4fc31d3a5d8db56d00aeec0ff3c"].into(),
 				],
 				id,
