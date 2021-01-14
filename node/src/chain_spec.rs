@@ -68,10 +68,18 @@ where
 	AccountPublic::from(get_from_seed::<TPublic>(seed)).into_account()
 }
 
-pub fn get_chain_spec(id: ParaId) -> Result<ChainSpec, String> {
+pub fn get_properties(symbol: &str, decimals: u32, ss58format: u32) -> Properties {
 	let mut properties = Properties::new();
-	properties.insert("tokenSymbol".into(), "KILT".into());
-	properties.insert("tokenDecimals".into(), 18.into());
+	properties.insert("tokenSymbol".into(), symbol.into());
+	properties.insert("tokenDecimals".into(), decimals.into());
+	properties.insert("ss58Format".into(), ss58format.into());
+
+	properties
+}
+
+pub fn get_chain_spec(id: ParaId) -> Result<ChainSpec, String> {
+	let properties = get_properties("KILT", 18, 38);
+
 	let wasm = WASM_BINARY.ok_or("No WASM")?;
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Local Testnet",
@@ -110,9 +118,8 @@ pub fn get_chain_spec(id: ParaId) -> Result<ChainSpec, String> {
 }
 
 pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
-	let mut properties = Properties::new();
-	properties.insert("tokenSymbol".into(), "KILT".into());
-	properties.insert("tokenDecimals".into(), 18.into());
+	let properties = get_properties("KILT", 18, 38);
+
 	let wasm = WASM_BINARY.ok_or("No WASM")?;
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Staging Testnet",
@@ -138,9 +145,8 @@ pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
 }
 
 pub fn rococo_test_net(id: ParaId) -> Result<ChainSpec, String> {
-	let mut properties = Properties::new();
-	properties.insert("tokenSymbol".into(), "KILT".into());
-	properties.insert("tokenDecimals".into(), 18.into());
+	let properties = get_properties("KILT", 18, 38);
+
 	let wasm = WASM_BINARY.ok_or("No WASM")?;
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Rococo",
