@@ -235,9 +235,15 @@ impl pallet_sudo::Config for Runtime {
 	type Event = Event;
 }
 
+parameter_types! {
+	pub const SelfParaId: u32 = 12623;
+}
+
+
 impl cumulus_parachain_upgrade::Config for Runtime {
 	type Event = Event;
 	type OnValidationData = ();
+	type SelfParaId = parachain_info::Module<Runtime>;
 }
 
 impl parachain_info::Config for Runtime {}
