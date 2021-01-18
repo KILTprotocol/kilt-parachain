@@ -29,28 +29,24 @@ RUN cargo build --release
 # test
 RUN cargo test --release
 
-FROM debian:stretch-slim
+# ===== SECOND STAGE ======
 
-WORKDIR /runtime
+FROM debian:buster-slim
+LABEL description="This is the 2nd stage: a very small image where we copy the kilt-parachain binary."
 
-RUN apt-get -y update && \
-	apt-get install -y --no-install-recommends \
-	openssl \
-	curl \
-	libssl-dev dnsutils
+COPY --from=builder /build/target/release/kilt-parachain /usr/local/bin
 
-# cleanup linux dependencies
-RUN apt-get autoremove -y
-RUN apt-get clean -y
-RUN rm -rf /tmp/* /var/tmp/*
+RUN useradd -m -u 1000 -U -s /bin/sh -d /node node && \
+	mkdir -p /node/.local/share/node && \
+	chown -R node:node /node/.local && \
+	ln -s /node/.local/share/node /data && \
+	rm -rf /usr/bin /usr/sbin
 
-RUN mkdir -p /runtime/target/release/
-COPY --from=builder /build/target/release/kilt-parachain /usr/local/bin/kilt-parachain
+COPY --from=builder /build/target/release/wbuild/kilt-parachain-runtime/kilt_parachain_runtime.compact.wasm /node/parachain.wasm
 
-RUN ls -la .
-
-# expose node ports
+USER node
 EXPOSE 30333 9933 9944
+VOLUME ["/data"]
 
-ENTRYPOINT [ "/usr/local/bin/kilt-parachain" ]
+ENTRYPOINT ["/usr/local/bin/kilt-parachain"]
 CMD ["--help"]

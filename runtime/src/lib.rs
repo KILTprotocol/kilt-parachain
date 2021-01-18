@@ -142,7 +142,7 @@ parameter_types! {
 		})
 		.avg_block_initialization(AVERAGE_ON_INITIALIZE_RATIO)
 		.build_or_panic();
-	pub const SS58Prefix: u8 = 42;
+	pub const SS58Prefix: u8 = 38;
 }
 
 impl frame_system::Config for Runtime {
@@ -235,9 +235,15 @@ impl pallet_sudo::Config for Runtime {
 	type Event = Event;
 }
 
+parameter_types! {
+	pub const SelfParaId: u32 = 12623;
+}
+
+
 impl cumulus_parachain_upgrade::Config for Runtime {
 	type Event = Event;
 	type OnValidationData = ();
+	type SelfParaId = parachain_info::Module<Runtime>;
 }
 
 impl parachain_info::Config for Runtime {}

@@ -29,6 +29,8 @@ use serde::{Deserialize, Serialize};
 use sp_core::{sr25519, Pair, Public};
 use sp_runtime::traits::{IdentifyAccount, Verify};
 
+use hex_literal::hex;
+
 /// Specialized `ChainSpec` for the normal parachain runtime.
 pub type ChainSpec = sc_service::GenericChainSpec<GenesisConfig, Extensions>;
 
@@ -66,11 +68,19 @@ where
 	AccountPublic::from(get_from_seed::<TPublic>(seed)).into_account()
 }
 
-pub fn get_chain_spec(id: ParaId) -> Result<ChainSpec, String> {
+pub fn get_properties(symbol: &str, decimals: u32, ss58format: u32) -> Properties {
 	let mut properties = Properties::new();
-	properties.insert("tokenSymbol".into(), "KILT".into());
-	properties.insert("tokenDecimals".into(), 18.into());
+	properties.insert("tokenSymbol".into(), symbol.into());
+	properties.insert("tokenDecimals".into(), decimals.into());
+	properties.insert("ss58Format".into(), ss58format.into());
+
+	properties
+}
+
+pub fn get_chain_spec(id: ParaId) -> Result<ChainSpec, String> {
+	let properties = get_properties("KILT", 18, 38);
 	let wasm = WASM_BINARY.ok_or("No WASM")?;
+
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Local Testnet",
 		"kilt_parachain_local_testnet",
@@ -108,10 +118,9 @@ pub fn get_chain_spec(id: ParaId) -> Result<ChainSpec, String> {
 }
 
 pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
-	let mut properties = Properties::new();
-	properties.insert("tokenSymbol".into(), "KILT".into());
-	properties.insert("tokenDecimals".into(), 18.into());
+	let properties = get_properties("KILT", 18, 38);
 	let wasm = WASM_BINARY.ok_or("No WASM")?;
+
 	Ok(ChainSpec::from_genesis(
 		"KILT Collator Staging Testnet",
 		"kilt_parachain_staging_testnet",
@@ -119,8 +128,11 @@ pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
 		move || {
 			testnet_genesis(
 				wasm,
-				get_account_id_from_seed::<sr25519::Public>("Alice"),
-				vec![get_account_id_from_seed::<sr25519::Public>("Alice")],
+				hex!["d206033ba2eadf615c510f2c11f32d931b27442e5cfb64884afa2241dfa66e70"].into(),
+				vec![
+					hex!["d206033ba2eadf615c510f2c11f32d931b27442e5cfb64884afa2241dfa66e70"].into(),
+					hex!["b67fe6413ffe5cf91ae38a6475c37deea70a25c6c86b3dd17bb82d09efd9b350"].into(),
+				],
 				id,
 			)
 		},
@@ -130,6 +142,36 @@ pub fn staging_test_net(id: ParaId) -> Result<ChainSpec, String> {
 		Some(properties),
 		Extensions {
 			relay_chain: "rococo_staging_testnet".into(),
+			para_id: id.into(),
+		},
+	))
+}
+
+pub fn rococo_net(id: ParaId) -> Result<ChainSpec, String> {
+	let properties = get_properties("KILT", 18, 38);
+	let wasm = WASM_BINARY.ok_or("No WASM")?;
+
+	Ok(ChainSpec::from_genesis(
+		"KILT Collator Rococo",
+		"kilt_parachain_rococo",
+		ChainType::Live,
+		move || {
+			testnet_genesis(
+				wasm,
+				hex!["da878f0b4cb36a3024015d47b9b3cc3be1573d8a744922e4ed9ab2665f469306"].into(),
+				vec![
+					hex!["da878f0b4cb36a3024015d47b9b3cc3be1573d8a744922e4ed9ab2665f469306"].into(),
+					hex!["f022c0f9c929bec1a5069d8806feab127f2fc4fc31d3a5d8db56d00aeec0ff3c"].into(),
+				],
+				id,
+			)
+		},
+		Vec::new(),
+		None,
+		None,
+		Some(properties),
+		Extensions {
+			relay_chain: "rococo_v1".into(),
 			para_id: id.into(),
 		},
 	))
@@ -150,7 +192,7 @@ fn testnet_genesis(
 			balances: endowed_accounts
 				.iter()
 				.cloned()
-				.map(|k| (k, 1 << 60))
+				.map(|k| (k, 10000000000000000000000000000_u128))
 				.collect(),
 		}),
 		pallet_sudo: Some(SudoConfig { key: root_key }),
